@@ -1,7 +1,7 @@
 import React from "react";
-import BuyerImg from "../assets/buyerProfile.png";
-import SellerControl from "../assets/sellercontrolled.png";
-import StandOut from "../assets/standout.png";
+import BuyerImg from "../../assets/buyerProfile.png";
+import SellerControl from "../../assets/sellercontrolled.png";
+import StandOut from "../../assets/standout.png";
 
 export default function WhoUseSec() {
   return (

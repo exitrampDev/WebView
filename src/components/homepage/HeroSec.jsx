@@ -1,5 +1,5 @@
 import React from "react";
-import bannerDashboardImg from "../assets/bannerDashboardImg.png";
+import bannerDashboardImg from "../../assets/bannerDashboardImg.png";
 export default function HeroSec() {
   return (
     <div className="bannerSecContent_wrap">
