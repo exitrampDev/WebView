@@ -18,6 +18,7 @@ const Header = () => {
         <nav className="nav_col">
           <Link to="/">Home</Link>
           <Link to="/listings">Listings</Link>
+          <Link to="/aboutus">About Us</Link>
         </nav>
 
         {/* Signup Button */}

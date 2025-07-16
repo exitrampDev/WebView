@@ -5,6 +5,8 @@ import WhoUseSec from "../components/homepage/WhoUseSec";
 import PlatformFeature from "../components/homepage/PlatformFeature";
 import ExitRampPricing from "../components/homepage/ExitRampPricing";
 import HowItWorks from "../components/homepage/HowItWorks";
+import ComplienceStatement from "../components/homepage/ComplienceStatement";
+import UpgradeFree from "../components/homepage/UpgradeFree";
 
 const Home = () => {
   return (
@@ -14,6 +16,8 @@ const Home = () => {
       <PlatformFeature />
       <ExitRampPricing />
       <HowItWorks />
+      <ComplienceStatement />
+      <UpgradeFree />
     </>
   );
 };
