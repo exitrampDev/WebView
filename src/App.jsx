@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Listings from "./pages/Listings";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import AboutUS from "./pages/AboutUS";
+import AboutUS from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import TermsCondition from "./pages/TermsCondition";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
