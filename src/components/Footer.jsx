@@ -34,16 +34,16 @@ export default function Footer() {
               <Link to="/listings">M&A Experts Listing</Link>
             </li>
             <li>
-              <Link to="/listings">About Us</Link>
+              <Link to="/aboutus">About Us</Link>
             </li>
             <li>
-              <Link to="/listings">Contact Us</Link>
+              <Link to="/contactus">Contact Us</Link>
             </li>
             <li>
-              <Link to="/listings">Terms and Conditions</Link>
+              <Link to="/termscondition">Terms and Conditions</Link>
             </li>
             <li>
-              <Link to="/listings">Privacy Policy</Link>
+              <Link to="/privacypolicy">Privacy Policy</Link>
             </li>
           </ul>
         </div>

@@ -5,6 +5,9 @@ import Listings from "./pages/Listings";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUS from "./pages/AboutUS";
+import ContactUs from "./pages/ContactUs";
+import TermsCondition from "./pages/TermsCondition";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const App = () => {
   return (
@@ -14,6 +17,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/aboutus" element={<AboutUS />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/termscondition" element={<TermsCondition />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
     </>

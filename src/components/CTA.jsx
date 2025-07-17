@@ -2,6 +2,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { ctaClicksState } from "../recoil/ctaState";
+import ArrowIcon from "../assets/arrowIcon.png";
 
 const CTA = ({ id, title, description, buttonText, onClick, to }) => {
   const [ctaState, setCtaState] = useRecoilState(ctaClicksState);
@@ -17,10 +18,14 @@ const CTA = ({ id, title, description, buttonText, onClick, to }) => {
   };
 
   return (
-    <div className="cta-box">
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <button onClick={handleClick}>{buttonText}</button>
+    <div className="ctaBox__main_wrap">
+      <div className="ctaBox__container">
+        <h2 dangerouslySetInnerHTML={{ __html: title }} />
+        <p dangerouslySetInnerHTML={{ __html: description }} />
+        <button onClick={handleClick}>
+          {buttonText} <img src={ArrowIcon} alt="ArrowIcon" />
+        </button>
+      </div>
     </div>
   );
 };

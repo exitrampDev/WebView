@@ -16,7 +16,7 @@ export default function AboutUS() {
       <GreatThing />
       <CTA
         id="abt-cta"
-        title="We Built ExitRamp 
+        title="We Built ExitRamp </br>
 to Help You Close Confidently."
         description="Everything we do is designed to support business owners through the transition process — with the tools, guidance, and community you deserve."
         buttonText="Explore Our Platform"

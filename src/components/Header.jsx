@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import signIcon from "../assets/signIcon.png";
 
@@ -9,16 +9,37 @@ const Header = () => {
       <div className="header_container">
         {/* Logo */}
         <div className="logo_col">
-          <Link to="/">
+          <NavLink to="/">
             <img src={logo} alt="Logo" />
-          </Link>
+          </NavLink>
         </div>
 
         {/* Navigation */}
         <nav className="nav_col">
-          <Link to="/">Home</Link>
-          <Link to="/listings">Listings</Link>
-          <Link to="/aboutus">About Us</Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/listings"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Listings
+          </NavLink>
+          <NavLink
+            to="/aboutus"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            About Us
+          </NavLink>
+          <NavLink
+            to="/contactus"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Contact Us
+          </NavLink>
         </nav>
 
         {/* Signup Button */}
