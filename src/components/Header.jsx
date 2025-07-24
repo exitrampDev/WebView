@@ -1,56 +1,190 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import signIcon from "../assets/signIcon.png";
+import SignupPopup from "./SignupPopup";
 
-// Example icons (replace with your own)
-import BuyerIcon from "../assets/buyerIcon.png";
-import SellerIcon from "../assets/sellerIcon.png";
-import MnaIcon from "../assets/mnaIcon.png";
-import SubsIcon from "../assets/subsIcon.png";
+// Icons
+import icon1 from "../assets/buyerIcon.png";
+import icon2 from "../assets/sellerIcon.png";
+import icon3 from "../assets/mnaIcon.png";
+import icon4 from "../assets/subsIcon.png";
+import icon5 from "../assets/freeBuyerAcc.png";
+import icon6 from "../assets/paidBuyerAcc.png";
+import icon7 from "../assets/freeSellerAcc.png";
+import icon8 from "../assets/paidSellerAcc.png";
 
-const popupOptions = [
+const accountTypes = [
   {
-    icon: BuyerIcon,
+    icon: icon1,
     title: "I'm a Buyer",
     description: "Browse listings, submit NDAs, and connect with sellers.",
+    value: "buyer",
   },
   {
-    icon: SellerIcon,
+    icon: icon2,
     title: "I'm a Seller",
     description: "List your business and manage interest from serious buyers.",
+    value: "seller",
   },
   {
-    icon: MnaIcon,
+    icon: icon3,
     title: "I'm an M&A Expert",
     description: "Showcase your expertise and help sellers close strong deals.",
+    value: "advisor",
   },
   {
-    icon: SubsIcon,
+    icon: icon4,
     title: "I Just Want Updates",
     description: "Sign up for insights and M&A market news.",
+    value: "Subscriber",
   },
 ];
 
+const roleOptions = {
+  buyer: {
+    title: "Choose Buyer Plan",
+    subtitle: "Select the right plan to begin your buyer journey on Exit Ramp.",
+    subOptions: [
+      {
+        icon: icon5,
+        title: "Free Buyer Account",
+        description:
+          "Browse listings, submit NDA requests, and save favorites — all with full confidentiality and no cost.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+      {
+        icon: icon6,
+        title: "Premium Buyer Account",
+        description:
+          "Get direct access to sellers, unlock CIMs after NDA approval, and use advanced tools built for buyers.",
+        button: {
+          text: "Upgrade to Premium Buyer",
+          link: "/signup/free-buyer",
+        },
+      },
+    ],
+  },
+  seller: {
+    title: "Choose Seller Plan",
+    subtitle:
+      "Select how you’d like to list and manage your business on Exit Ramp.",
+    subOptions: [
+      {
+        icon: icon7,
+        title: "Free Seller Account",
+        description:
+          "List your business, manage NDA requests, and message buyers privately — all while keeping your identity protected.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+      {
+        icon: icon8,
+        title: "Seller Central Account (Premium)",
+        description:
+          "Get the full toolkit: NDA and CIM management, 2-year listing, buyer insights, and expert selling resources.",
+        button: {
+          text: "Upgrade to Seller Central",
+          link: "/signup/free-buyer",
+        },
+      },
+    ],
+  },
+  advisor: {
+    title: "I’m an Advisor",
+    subtitle: "Choose your advisory service.",
+    subOptions: [
+      {
+        icon: icon1,
+        title: "Legal Advisor",
+        description: "Support deal structures and compliance.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+      {
+        icon: icon1,
+        title: "Financial Advisor",
+        description: "Provide valuations and funding options.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+    ],
+  },
+  Subscriber: {
+    title: "I’m a Subscriber",
+    subtitle: "Choose your Subscriber type.",
+    subOptions: [
+      {
+        icon: icon1,
+        title: "Angel Subscriber",
+        description: "Invest in early-stage companies.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+      {
+        icon: icon1,
+        title: "VC Firm",
+        description: "Find scalable investment opportunities.",
+        button: {
+          text: "Continue with Free Account",
+          link: "/signup/free-buyer",
+        },
+      },
+    ],
+  },
+};
+
 const Header = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [popupStep, setPopupStep] = useState(1);
+  const [selectedRole, setSelectedRole] = useState(null);
+  const navigate = useNavigate();
 
-  const handleDivClick = (index) => {
-    console.log(`You clicked on: ${popupOptions[index].title}`);
-    // You can add route change, modal, or anything else here
+  const openPopup = () => {
+    setPopupStep(1);
+    setSelectedRole(null);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setPopupStep(1);
+    setSelectedRole(null);
+  };
+
+  const handleRoleSelect = (roleKey) => {
+    // Redirect if role is advisor or subscriber
+    if (roleKey === "advisor" || roleKey === "Subscriber") {
+      closePopup();
+      navigate("/login");
+      return;
+    }
+
+    // Proceed to Step 2 for other roles
+    setSelectedRole(roleKey);
+    setPopupStep(2);
   };
 
   return (
     <header>
       <div className="header_container">
-        {/* Logo */}
         <div className="logo_col">
           <NavLink to="/">
             <img src={logo} alt="Logo" />
           </NavLink>
         </div>
 
-        {/* Navigation */}
         <nav className="nav_col">
           <NavLink
             to="/"
@@ -78,48 +212,23 @@ const Header = () => {
           </NavLink>
         </nav>
 
-        {/* Signup Button */}
         <div className="signup_content">
-          <button onClick={() => setShowPopup(true)}>
+          <button onClick={openPopup}>
             Sign Up <img src={signIcon} alt="signIcon" />
           </button>
         </div>
       </div>
 
-      {/* Popup Modal */}
       {showPopup && (
-        <div className="popup_overlay" onClick={() => setShowPopup(false)}>
-          <div
-            className="popup_modal_signup"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Choose Your Account Type</h3>
-            <p>Select how you’d like to use Exit Ramp.</p>
-            <div className="popup_options">
-              {popupOptions.map((item, index) => (
-                <div
-                  key={index}
-                  className="popup_option"
-                  onClick={() => handleDivClick(index)}
-                >
-                  <div className="popup__content_block">
-                    <img
-                      src={item.icon}
-                      alt={`icon-${index}`}
-                      className="popup_icon"
-                    />
-                    <h4>{item.title}</h4>
-                    <p>{item.description}</p>
-                  </div>
-                </div>
-              ))}
-
-              <div className="login__content">
-                Already have an account? <Link to="/login">Log in</Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SignupPopup
+          step={popupStep}
+          selectedRole={selectedRole}
+          onClose={closePopup}
+          onSelectRole={handleRoleSelect}
+          backToStep1={() => setPopupStep(1)}
+          step1Options={accountTypes}
+          roleOptions={roleOptions}
+        />
       )}
     </header>
   );
