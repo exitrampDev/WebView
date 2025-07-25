@@ -1394,3 +1394,406 @@ form.contact__form input:focus-visible {
 .step__two_main .popup__content_block p {
   max-width: 95%;
 }
+
+@media screen and (min-width: 1024px) and (max-width: 1700px) {
+  .header_container nav.nav_col a {
+    font-size: 18px;
+  }
+
+  .signup_content button {
+    font-size: 20px;
+    padding: 15px 40px;
+  }
+
+  .bannerSecContent_wrap .imageBannerRight {
+    width: 50%;
+  }
+
+  .bannerSecContent_wrap .imageBannerRight img {
+    width: 100%;
+  }
+
+  .contentSecLeft {
+    width: 50%;
+  }
+
+  .bannerSecContent_wrap {
+    padding: 0 0 0 15px;
+  }
+
+  .contentSecLeft h3 {
+    font-size: 60px;
+  }
+
+  .contentSecLeft p {
+    font-size: 22px;
+  }
+
+  .whouse_sec_wrap_container h2.whouse_sec_wrap_heading {
+    font-size: 40px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_first
+    h3 {
+    font-size: 30px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_first
+    p {
+    font-size: 20px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_second
+    .whouse_sec_content_text_box
+    h3 {
+    font-size: 30px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_second
+    .whouse_sec_content_text_box
+    p {
+    font-size: 20px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_third
+    .whouse_sec_content_text_box
+    h3 {
+    font-size: 30px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_third
+    .whouse_sec_content_text_box
+    p {
+    font-size: 20px;
+  }
+
+  .whouse_sec_wrap_container .whouse_sec_content_wrap {
+    padding: 0 15px;
+  }
+
+  .platformFeature__container .platformFeature__image_box img {
+    width: 100%;
+  }
+
+  .platformFeature__container {
+    padding: 0 0 0 15px;
+  }
+
+  .platformFeature__container .platformFeature__content_box > h3 {
+    font-size: 40px;
+  }
+
+  .platformFeature__content_box_area
+    .platformFeature__content_box_area_list
+    .platformFeature__content_box_area_text
+    h3 {
+    font-size: 25px;
+  }
+
+  .platformFeature__content_box_area
+    .platformFeature__content_box_area_list
+    .platformFeature__content_box_area_text
+    p {
+    font-size: 20px;
+  }
+
+  .ExitRampPricing__container .ExitRampPricing__header_wrap h3 {
+    font-size: 40px;
+  }
+
+  .ExitRampPricing__container .ExitRampPricing__header_wrap p {
+    font-size: 20px;
+  }
+
+  .ExitRampPricing__container {
+    padding: 0 15px;
+  }
+
+  .ExitRampPricing__pricing_table_wrap .ExitRampPricing__pricing_table_header {
+    font-size: 20px;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_type
+    h4 {
+    font-size: 18px;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_type
+    p {
+    font-size: 18px;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_freature
+    ul
+    li {
+    font-size: 18px;
+  }
+
+  .HowItWorks__section_container {
+    padding: 0 15px;
+  }
+
+  .HowItWorks__section_container .HowItWorks__section_header_content h3 {
+    font-size: 40px;
+  }
+
+  .HowItWorks__section_container .HowItWorks__section_header_content p {
+    font-size: 20px;
+  }
+
+  .HowItWorks__section_body_card_step_tag {
+    font-size: 20px;
+    padding: 10px 20px;
+  }
+
+  .HowItWorks__section_body_card_heading {
+    font-size: 25px;
+  }
+
+  .HowItWorks__section_body_card_para {
+    font-size: 20px;
+  }
+
+  .ComplienceStatement_wrapper {
+    padding: 140px 15px;
+  }
+
+  .ComplienceStatement_container .ComplienceStatement_content_box h4 {
+    font-size: 40px;
+  }
+
+  .ComplienceStatement_container .ComplienceStatement_content_box p {
+    font-size: 20px;
+  }
+
+  .ComplienceStatement_container
+    .ComplienceStatement_content_box
+    button.arrowIcon {
+    font-size: 20px;
+    padding: 15px 40px;
+  }
+
+  .UpgradeFree_when_ready_container h3 {
+    font-size: 40px;
+  }
+
+  .UpgradeFree_when_ready_container p {
+    font-size: 20px;
+  }
+
+  .UpgradeFree_when_ready_container button.UpgradeFree_when_ready_btn {
+    font-size: 20px;
+    padding: 15px 40px;
+  }
+
+  .footer__content_wrap {
+    padding: 140px 15px 0 15px;
+  }
+
+  .footer__content_container .logo_block h3 {
+    font-size: 20px;
+  }
+
+  .footer__content_container .logo_block p {
+    font-size: 18px;
+  }
+
+  .footer__content_container .logo_block form.subscription-form button {
+    font-size: 20px;
+  }
+
+  .footer__content_container .useful_link_block h3 {
+    font-size: 20px;
+  }
+
+  .footer__content_container .content_block h3 {
+    font-size: 20px;
+  }
+
+  .footer__content_container .useful_link_block ul a {
+    font-size: 18px;
+  }
+
+  .footer__content_container .content_block ul li a.email_contact {
+    font-size: 18px;
+  }
+
+  .footer__content_container .content_block ul li a {
+    font-size: 18px;
+  }
+
+  .footer__content_copyright p {
+    font-size: 18px;
+  }
+  /*about us*/
+  .AboutHero__container h4 {
+    font-size: 60px;
+  }
+
+  .AboutHero__container p {
+    font-size: 20px;
+  }
+
+  .OurMission__main_wrap {
+    padding: 140px 15px;
+  }
+
+  .OurMission__main_wrap > h2 {
+    font-size: 40px;
+  }
+
+  .OurMission__container .OurMission__left_col h4 {
+    font-size: 30px;
+  }
+
+  .OurMission__container .OurMission__left_col p {
+    font-size: 20px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_top_row
+    h4 {
+    font-size: 30px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_top_row
+    p {
+    font-size: 20px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_bottom_row
+    h4 {
+    font-size: 30px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_bottom_row
+    p {
+    font-size: 20px;
+  }
+
+  .NeedFingerTips__wrap_main .NeedFingerTips__container {
+    padding: 0 15px;
+  }
+
+  .NeedFingerTips__wrap_main
+    .NeedFingerTips__container
+    .NeedFingerTips__content_box
+    h3 {
+    font-size: 40px;
+  }
+
+  .NeedFingerTips__wrap_main
+    .NeedFingerTips__container
+    .NeedFingerTips__content_box
+    p {
+    font-size: 20px;
+  }
+
+  .YoucanSee__main_wrapper {
+    padding: 140px 15px 0 15px;
+  }
+
+  .YoucanSee__container h3 {
+    font-size: 40px;
+  }
+
+  .YoucanSee__container p {
+    font-size: 20px;
+  }
+
+  .GreatThing__main_wrap {
+    padding: 0 15px;
+  }
+
+  .GreatThing__container .GreatThing__content_block h3 {
+    font-size: 40px;
+  }
+
+  .GreatThing__container .GreatThing__content_block p {
+    font-size: 20px;
+  }
+
+  .ctaBox__main_wrap {
+    padding: 140px 15px;
+  }
+
+  .ctaBox__container h2 {
+    font-size: 40px;
+  }
+
+  .ctaBox__container p {
+    font-size: 20px;
+  }
+
+  .ctaBox__container button {
+    font-size: 20px;
+  }
+  /*terms pages*/
+  .TermsCondition__container {
+    padding: 0 15px;
+  }
+
+  .TermsCondition__main_wrap h2 {
+    font-size: 60px;
+  }
+
+  .TermsCondition__container p,
+  .TermsCondition__container p a {
+    font-size: 20px;
+  }
+
+  .TermsCondition__container h3 {
+    font-size: 30px;
+  }
+
+  .TermsCondition__container ul li {
+    font-size: 20px;
+  }
+
+  .TermsCondition__contact_details h3 {
+    font-size: 40px;
+  }
+
+  .TermsCondition__contact_details .TermsCondition__contact_details_content {
+    font-size: 20px;
+  }
+  /*contact us*/
+  .ContactUs__container .ContactUs__heading_row h3 {
+    font-size: 60px;
+  }
+
+  .ContactUs__container .ContactUs__heading_row p {
+    font-size: 24px;
+  }
+  header {
+    padding: 45px 15px 5px 15px;
+  }
+}
