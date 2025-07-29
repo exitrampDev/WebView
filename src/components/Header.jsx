@@ -31,7 +31,7 @@ const accountTypes = [
     icon: icon3,
     title: "I'm an M&A Expert",
     description: "Showcase your expertise and help sellers close strong deals.",
-    value: "advisor",
+    value: "ma_expert",
   },
   {
     icon: icon4,
@@ -53,7 +53,7 @@ const roleOptions = {
           "Browse listings, submit NDA requests, and save favorites — all with full confidentiality and no cost.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/register",
         },
       },
       {
@@ -63,7 +63,7 @@ const roleOptions = {
           "Get direct access to sellers, unlock CIMs after NDA approval, and use advanced tools built for buyers.",
         button: {
           text: "Upgrade to Premium Buyer",
-          link: "/signup/free-buyer",
+          link: "/register",
         },
       },
     ],
@@ -80,7 +80,7 @@ const roleOptions = {
           "List your business, manage NDA requests, and message buyers privately — all while keeping your identity protected.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/register",
         },
       },
       {
@@ -90,13 +90,13 @@ const roleOptions = {
           "Get the full toolkit: NDA and CIM management, 2-year listing, buyer insights, and expert selling resources.",
         button: {
           text: "Upgrade to Seller Central",
-          link: "/signup/free-buyer",
+          link: "/register",
         },
       },
     ],
   },
-  advisor: {
-    title: "I’m an Advisor",
+  ma_expert: {
+    title: "I’m an M&A Expert",
     subtitle: "Choose your advisory service.",
     subOptions: [
       {
@@ -105,7 +105,7 @@ const roleOptions = {
         description: "Support deal structures and compliance.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/free-buyer",
         },
       },
       {
@@ -114,7 +114,7 @@ const roleOptions = {
         description: "Provide valuations and funding options.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/free-buyer",
         },
       },
     ],
@@ -129,7 +129,7 @@ const roleOptions = {
         description: "Invest in early-stage companies.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/subcriber",
         },
       },
       {
@@ -138,7 +138,7 @@ const roleOptions = {
         description: "Find scalable investment opportunities.",
         button: {
           text: "Continue with Free Account",
-          link: "/signup/free-buyer",
+          link: "/subcriber",
         },
       },
     ],
@@ -164,16 +164,35 @@ const Header = () => {
   };
 
   const handleRoleSelect = (roleKey) => {
-    // Redirect if role is advisor or subscriber
-    if (roleKey === "advisor" || roleKey === "Subscriber") {
+    // Redirect if role is ma_expert or subscriber
+    if (roleKey === "ma_expert") {
       closePopup();
-      navigate("/login");
-      return;
+      navigate("/register", {
+        state: {
+          role: roleKey,
+        },
+      });
     }
-
+    if (roleKey === "Subscriber") {
+      closePopup();
+      navigate("/register", {
+        state: {
+          role: roleKey,
+          plan: planOption,
+        },
+      });
+    }
     // Proceed to Step 2 for other roles
     setSelectedRole(roleKey);
     setPopupStep(2);
+  };
+  const handlePlanSelect = (roleKey) => {
+    closePopup();
+    navigate("/register", {
+      state: {
+        role: roleKey,
+      },
+    });
   };
 
   return (
@@ -228,6 +247,7 @@ const Header = () => {
           backToStep1={() => setPopupStep(1)}
           step1Options={accountTypes}
           roleOptions={roleOptions}
+          onSelectPlan={handlePlanSelect}
         />
       )}
     </header>

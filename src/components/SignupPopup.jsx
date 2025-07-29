@@ -10,6 +10,7 @@ const SignupPopup = ({
   backToStep1,
   roleOptions,
   step1Options,
+  onSelectPlan,
 }) => {
   return (
     <div className="popup_overlay" onClick={onClose}>
@@ -38,7 +39,10 @@ const SignupPopup = ({
                 </div>
               ))}
               <div className="login__content">
-                Already have an account? <Link to="/login">Log in</Link>
+                Already have an account?{" "}
+                <Link to="/login" onClick={onClose}>
+                  Log in
+                </Link>
               </div>
             </div>
           </>
@@ -64,10 +68,13 @@ const SignupPopup = ({
                     <h4>{sub.title}</h4>
                     <p>{sub.description}</p>
                     {sub.button && (
-                      <a href={sub.button.link} className="popup_btn">
+                      <button
+                        className="popup_btn"
+                        onClick={() => onSelectPlan(selectedRole, sub)}
+                      >
                         {sub.button.text}{" "}
                         <img src={ArrowIcon} alt="ArrowIcon" />
-                      </a>
+                      </button>
                     )}
                   </div>
                 </div>

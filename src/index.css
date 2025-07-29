@@ -1354,7 +1354,7 @@ form.contact__form input:focus-visible {
 .popup_modal_signup button.back_btn img {
   transform: rotate(180deg);
 }
-.popup_option .popup__content_block a {
+.popup_option .popup__content_block button {
   display: flex;
   align-items: center;
   background: #ffb100;
@@ -1367,22 +1367,9 @@ form.contact__form input:focus-visible {
   text-decoration: none;
   text-align: center;
   justify-content: center;
+  margin: 0 auto;
   margin-top: 24px;
-}
-.popup_option .popup__content_block a {
-  display: flex;
-  align-items: center;
-  background: #ffb100;
-  color: #fff;
-  font-size: 24px;
-  padding: 18px 40px;
-  gap: 10px;
-  border-radius: 100px;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  justify-content: center;
-  margin-top: 24px;
+  border: none;
 }
 
 .step__two_main > p {
