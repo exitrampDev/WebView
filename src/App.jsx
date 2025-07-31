@@ -12,6 +12,9 @@ import TermsCondition from "./pages/TermsCondition";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const App = () => {
   return (

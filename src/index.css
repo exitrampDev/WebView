@@ -1783,4 +1783,534 @@ form.contact__form input:focus-visible {
   header {
     padding: 45px 15px 5px 15px;
   }
+
+  header.signup_content .p-menubar.p-component,
+  header
+    .p-menubar
+    .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
+    > .p-menuitem-content {
+    background: none !important ;
+    border: none;
+  }
+  header ul.p-menubar-root-list {
+    display: inline-flex;
+    gap: 24px;
+    width: 66.9%;
+    justify-content: center;
+  }
+
+  header ul.p-menubar-root-list a.p-menuitem-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 0;
+  }
+  header .p-menubar .p-menuitem-link {
+    overflow: inherit;
+  }
+  header ul.p-menubar-root-list a.p-menuitem-link {
+    background: none !important;
+  }
+
+  header
+    .p-menubar
+    .p-menubar-root-list
+    > .p-menuitem:not(.p-highlight):not(.p-disabled)
+    > .p-menuitem-content:hover
+    span.p-menuitem-text {
+    color: #ffb100;
+  }
+  header ul.p-menubar-root-list a.p-menuitem-link span.p-menuitem-text {
+    color: #fff;
+  }
+  header li.p-menuitem-active.p-menuitem a span.p-menuitem-text {
+    color: #ffb100;
+  }
+  header
+    .p-menubar
+    .p-menubar-root-list
+    > .p-menuitem:not(.p-highlight):not(.p-disabled)
+    > .p-menuitem-content:hover {
+    background: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bannerSecContent {
+    flex-wrap: wrap;
+  }
+
+  .bannerSecContent .imageBannerRight img {
+    width: 100%;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_first {
+    flex-wrap: wrap;
+    padding: 15px;
+    gap: 5px;
+  }
+
+  .whouse_sec_content_text_box {
+    width: 100%;
+  }
+
+  .whouse_sec_content_image_box {
+    width: 100%;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_second {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .whouse_sec_wrap_container
+    .whouse_sec_content_wrap
+    .whouse_sec_content_third {
+    width: 100%;
+    padding: 15px;
+  }
+  .platformFeature__container {
+    flex-wrap: wrap;
+  }
+
+  .platformFeature__container .platformFeature__content_box {
+    width: 100%;
+  }
+
+  .platformFeature__container .platformFeature__image_box {
+    width: 100%;
+  }
+
+  .platformFeature__container .platformFeature__image_box img {
+    width: 100%;
+  }
+
+  .HowItWorks__section_body {
+    flex-wrap: wrap;
+  }
+
+  .ComplienceStatement_container {
+    flex-wrap: wrap;
+  }
+
+  .ComplienceStatement_image_box img {
+    width: 100%;
+  }
+
+  .footer__content_container {
+    flex-wrap: wrap;
+  }
+  header .p-menubar.p-component {
+    background: none;
+    border: navajowhite;
+  }
+
+  .signup_content button {
+    font-size: 0;
+    padding: 16px 30px;
+  }
+  header .p-menubar-end {
+    margin: 0;
+  }
+
+  .p-menubar.p-component {
+    justify-content: space-between;
+  }
+
+  header a.p-menubar-button {
+    color: #fff;
+  }
+  .contentSecLeft h3 {
+    font-size: 35px;
+  }
+
+  .bannerSecContent {
+    padding: 15px;
+    flex-direction: column-reverse;
+    gap: 5px;
+  }
+  .whouse_sec_wrap_container h2.whouse_sec_wrap_heading {
+    margin-top: 30px;
+    font-size: 40px;
+  }
+
+  .whouse_sec_wrap_container {
+    padding: 15px;
+  }
+
+  .whouse_sec_wrap_container .whouse_sec_content_wrap {
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  .platformFeature__wrapper {
+    padding: 30px 15px;
+  }
+
+  .platformFeature__container .platformFeature__content_box > h3 {
+    font-size: 35px;
+    text-align: center;
+  }
+
+  .platformFeature__content_box_area {
+    padding: 49px 0 0px 0;
+  }
+
+  .platformFeature__content_box_area
+    .platformFeature__content_box_area_list
+    .platformFeature__content_box_area_text
+    h3 {
+    font-size: 25px;
+  }
+
+  .platformFeature__content_box_area
+    .platformFeature__content_box_area_list
+    .platformFeature__content_box_area_text
+    p {
+    font-size: 22px;
+  }
+
+  .ExitRampPricing__main_wrap {
+    padding: 30px 0;
+  }
+
+  .ExitRampPricing__container .ExitRampPricing__header_wrap h3 {
+    font-size: 35px;
+  }
+
+  .ExitRampPricing__container {
+    padding: 0 15px;
+  }
+
+  .ExitRampPricing__container .ExitRampPricing__header_wrap p {
+    margin: 10px 0 30px 0;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_type {
+    width: 100%;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list {
+    flex-wrap: wrap;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_freature {
+    width: 100%;
+  }
+
+  .ExitRampPricing__pricing_table_wrap
+    .ExitRampPricing__pricing_table_body
+    .ExitRampPricing__pricing_table_list
+    .ExitRampPricing__pricing_table_body_price {
+    width: 100%;
+  }
+
+  .ExitRampPricing__pricing_table_wrap .ExitRampPricing__pricing_table_header {
+    display: none;
+  }
+
+  .HowItWorks__section_wrapper {
+    margin: 30px 0;
+    padding: 0 15px;
+  }
+
+  .HowItWorks__section_container .HowItWorks__section_header_content h3 {
+    font-size: 35px;
+  }
+
+  .HowItWorks__section_container .HowItWorks__section_header_content p {
+    font-size: 22px;
+  }
+
+  .ComplienceStatement_wrapper {
+    padding: 40px 15px;
+  }
+
+  .ComplienceStatement_container .ComplienceStatement_content_box h4 {
+    font-size: 35px;
+  }
+
+  .ComplienceStatement_container .ComplienceStatement_content_box p {
+    font-size: 22px;
+  }
+
+  .ComplienceStatement_container
+    .ComplienceStatement_content_box
+    button.arrowIcon {
+    font-size: 22px;
+    gap: 10px;
+    padding: 20px 22px;
+  }
+
+  .UpgradeFree_when_ready_wrap {
+    padding: 35px 15px;
+  }
+
+  .UpgradeFree_when_ready_container h3 {
+    font-size: 35px;
+  }
+
+  .footer__content_container .logo_block {
+    width: 100%;
+  }
+
+  .footer__content_wrap {
+    padding: 30px 0;
+  }
+
+  .footer__content_container .logo_block > img {
+    max-width: 320px;
+  }
+
+  .footer__content_container .logo_block form.subscription-form {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 17px 0;
+  }
+
+  .footer__content_container .logo_block form.subscription-form button {
+    margin: 0;
+  }
+
+  .footer__content_container .logo_block form.subscription-form {
+    max-width: 100%;
+    width: 100%;
+    background: transparent;
+  }
+
+  .footer__content_container
+    .logo_block
+    form.subscription-form
+    input[type="email"] {
+    width: 100%;
+    padding: 20px 25px;
+    margin-bottom: 15px;
+  }
+
+  .footer__content_container {
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .footer__content_container .useful_link_block h3 {
+    margin-top: 0;
+  }
+
+  .footer__content_container .content_block h3 {
+    margin-top: 0;
+  }
+
+  .footer__content_copyright {
+    margin-top: 20px;
+  }
+  /*about page*/
+  .AboutHero__container h4 {
+    font-size: 35px;
+  }
+
+  .AboutHero__container {
+    padding: 30px 15px;
+  }
+
+  .AboutHero__container p {
+    font-size: 22px;
+  }
+
+  .OurMission__main_wrap {
+    padding: 30px 15px;
+  }
+
+  .OurMission__main_wrap > h2 {
+    font-size: 35px;
+    margin-bottom: 25px;
+  }
+
+  .OurMission__container {
+    flex-wrap: wrap;
+  }
+
+  .OurMission__container .OurMission__left_col {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .OurMission__container .OurMission__left_col img {
+    max-width: 100%;
+  }
+
+  .OurMission__container .OurMission__left_col h4 {
+    font-size: 28px;
+  }
+
+  .OurMission__container .OurMission__left_col p {
+    font-size: 20px;
+  }
+
+  .OurMission__container .OurMission__right_col .OurMission__right_col_top_row {
+    padding: 15px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_top_row
+    h4 {
+    font-size: 32px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_top_row
+    p {
+    font-size: 20px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_bottom_row {
+    padding: 15px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_bottom_row
+    h4 {
+    font-size: 28px;
+  }
+
+  .OurMission__container
+    .OurMission__right_col
+    .OurMission__right_col_bottom_row
+    p {
+    font-size: 20px;
+  }
+  .NeedFingerTips__wrap_main .NeedFingerTips__container {
+    padding: 30px 15px;
+    flex-wrap: wrap;
+  }
+
+  .NeedFingerTips__wrap_main
+    .NeedFingerTips__container
+    .NeedFingerTips__content_box
+    h3 {
+    font-size: 35px;
+  }
+
+  .NeedFingerTips__wrap_main
+    .NeedFingerTips__container
+    .NeedFingerTips__content_box
+    p {
+    font-size: 20px;
+  }
+
+  .NeedFingerTips__img_block img {
+    max-width: 100%;
+  }
+
+  .YoucanSee__main_wrapper {
+    padding: 30px 15px 0 15px;
+  }
+
+  .YoucanSee__container h3 {
+    font-size: 35px;
+    margin-bottom: 15px;
+  }
+
+  .YoucanSee__container p {
+    font-size: 20px;
+  }
+
+  .YoucanSee__container img {
+    max-width: 100%;
+  }
+
+  .GreatThing__container {
+    flex-wrap: wrap;
+    padding: 0 15px;
+    gap: 30px;
+  }
+
+  .GreatThing__img_block img {
+    max-width: 100%;
+  }
+
+  .GreatThing__container .GreatThing__content_block h3 {
+    font-size: 35px;
+  }
+
+  .GreatThing__container .GreatThing__content_block p {
+    font-size: 20px;
+  }
+
+  .ctaBox__main_wrap {
+    padding: 30px 15px;
+  }
+
+  .ctaBox__container h2 {
+    font-size: 35px;
+  }
+
+  .ctaBox__container p {
+    font-size: 20px;
+  }
+  /*contact page*/
+  .ContactUs__main_wrap {
+    padding: 30px 15px;
+  }
+
+  .ContactUs__container .ContactUs__heading_row h3 {
+    font-size: 35px;
+  }
+
+  .ContactUs__container .ContactUs__heading_row p {
+    font-size: 20px;
+  }
+
+  .contact__form_submit_btn button {
+    font-size: 21px;
+    padding: 15px 25px;
+  }
+  /*terms page*/
+  .TermsCondition__container {
+    padding: 0 15px;
+  }
+
+  .TermsCondition__main_wrap h2 {
+    font-size: 40px;
+  }
+
+  .TermsCondition__container h3 {
+    font-size: 30px;
+  }
+
+  .TermsCondition__container p,
+  .TermsCondition__container p a {
+    font-size: 20px;
+  }
+
+  .TermsCondition__container ul li {
+    font-size: 20px;
+  }
+
+  .TermsCondition__contact_details {
+    padding: 30px 15px;
+  }
+
+  .TermsCondition__contact_details h3 {
+    font-size: 35px;
+  }
+
+  .TermsCondition__contact_details .TermsCondition__contact_details_content {
+    font-size: 20px;
+  }
 }
