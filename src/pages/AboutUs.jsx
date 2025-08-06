@@ -5,13 +5,10 @@ import NeedFingerTips from "../components/aboutpage/NeedFingerTips";
 import YoucanSee from "../components/aboutpage/YoucanSee";
 import GreatThing from "../components/aboutpage/GreatThing";
 import CTA from "../components/CTA";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 export default function AboutUS() {
   return (
     <>
-      <Header />
       <AboutHero />
       <OurMission />
       <NeedFingerTips />
@@ -25,7 +22,6 @@ to Help You Close Confidently."
         buttonText="Explore Our Platform"
         to="/listings"
       />
-      <Footer />
     </>
   );
 }

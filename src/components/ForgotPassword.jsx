@@ -3,9 +3,6 @@ import axios from "axios";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-import Header from "./Header";
-import Footer from "./Footer";
-
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -32,34 +29,30 @@ const ForgotPassword = () => {
   };
 
   return (
-    <>
-      <Header />
-      <div className="forgot-password-page">
-        <h2>Forgot Password</h2>
-        <form onSubmit={handleSubmit} className="p-fluid forgot-password-form">
-          <div className="field mb-3">
-            <label htmlFor="email">Email</label>
-            <InputText
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            label={loading ? "Sending..." : "Send Reset Link"}
-            loading={loading}
-            className="w-full"
+    <div className="forgot-password-page">
+      <h2>Forgot Password</h2>
+      <form onSubmit={handleSubmit} className="p-fluid forgot-password-form">
+        <div className="field mb-3">
+          <label htmlFor="email">Email</label>
+          <InputText
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="Enter your email"
           />
-        </form>
+        </div>
 
-        {message && <p className="form-message mt-3">{message}</p>}
-      </div>
-      <Footer />
-    </>
+        <Button
+          type="submit"
+          label={loading ? "Sending..." : "Send Reset Link"}
+          loading={loading}
+          className="w-full"
+        />
+      </form>
+
+      {message && <p className="form-message mt-3">{message}</p>}
+    </div>
   );
 };
 

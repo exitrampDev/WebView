@@ -1576,48 +1576,6 @@ form.p-fluid.space-y-4.register_form_col .login_block_col a {
   color: #060606;
   font-weight: 600;
 }
-.dashboard__main_wrap {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  background: #f3f7ff;
-  padding: 24px;
-}
-
-.dashboard__sidebar_wrap {
-  width: 245px;
-  background: #002f68;
-  border-radius: 20px;
-}
-
-.dasboard__content_container_wrap {
-  width: calc(100% - 245px);
-}
-
-.dashboard__sidebar_wrap .logo_col_sidebar img {
-  width: 100%;
-}
-
-.logo_col_sidebar {
-  padding: 20px;
-  border-bottom: 1px solid #144885;
-}
-
-.dashboard__sidebar_wrap .nav__dahboard ul {
-  padding: 30px 20px;
-  margin: 0;
-  list-style: none;
-}
-
-.dashboard__sidebar_wrap .nav__dahboard ul li a {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  text-decoration: none;
-  gap: 8px;
-  font-weight: 400;
-}
 @media screen and (min-width: 1024px) and (max-width: 1700px) {
   .header_container nav.nav_col a {
     font-size: 18px;
