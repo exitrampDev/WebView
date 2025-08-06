@@ -1618,7 +1618,7 @@ form.p-fluid.space-y-4.register_form_col .login_block_col a {
   gap: 8px;
   font-weight: 400;
 }
-@media screen and (min-width: 1024px) and (max-width: 1700px) {
+@media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;
   }
