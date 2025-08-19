@@ -67,7 +67,11 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       setMessage({
-        text: "Registration failed. " + (error.response?.data?.message || ""),
+        text:
+          "Registration failed. " +
+          (typeof error.response?.data?.message === "string"
+            ? error.response.data.message
+            : JSON.stringify(error.response?.data?.message || "")),
         type: "error",
       });
     } finally {

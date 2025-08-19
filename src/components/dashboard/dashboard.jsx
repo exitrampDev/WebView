@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { authState } from "../../recoil/ctaState";
 import DashboardSidebar from "./DashboardSidebar";
+import DashboardContent from "./dashboardContent";
 import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -14,7 +15,9 @@ const Dashboard = () => {
             <div className="dashboard__sidebar_wrap">
               <DashboardSidebar />
             </div>
-            <div className="dasboard__content_container_wrap"></div>
+            <div className="dasboard__content_container_wrap">
+              <DashboardContent />
+            </div>
           </div>
         </>
       ) : (

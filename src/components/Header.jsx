@@ -5,6 +5,8 @@ import { Button } from "primereact/button";
 import logo from "../assets/logo.png";
 import signIcon from "../assets/signIcon.png";
 import SignupPopup from "./SignupPopup";
+import { useRecoilValue } from "recoil";
+import { authState } from "../recoil/ctaState";
 
 // Icons
 import icon1 from "../assets/buyerIcon.png";
@@ -153,6 +155,7 @@ const Header = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useRecoilValue(authState);
 
   const currentPath = location.pathname;
 
@@ -229,8 +232,12 @@ const Header = () => {
     </div>
   );
 
-  const end = (
-    <button onClick={openPopup}>
+  const end = auth?.access_token ? (
+    <NavLink to="/dashboard" className="signup-btn">
+      Dashboard <img src={signIcon} alt="signIcon" />
+    </NavLink>
+  ) : (
+    <button onClick={openPopup} className="signup-btn">
       Sign Up <img src={signIcon} alt="signIcon" />
     </button>
   );
