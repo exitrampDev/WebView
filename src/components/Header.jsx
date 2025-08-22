@@ -41,7 +41,7 @@ const accountTypes = [
     icon: icon4,
     title: "I Just Want Updates",
     description: "Sign up for insights and M&A market news.",
-    value: "Subscriber",
+    value: "subscriber",
   },
 ];
 
@@ -123,7 +123,7 @@ const roleOptions = {
       },
     ],
   },
-  Subscriber: {
+  subscriber: {
     title: "I’m a Subscriber",
     subtitle: "Choose your Subscriber type.",
     subOptions: [
@@ -156,7 +156,6 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useRecoilValue(authState);
-
   const currentPath = location.pathname;
 
   const openPopup = () => {
@@ -181,12 +180,11 @@ const Header = () => {
         },
       });
     }
-    if (roleKey === "Subscriber") {
+    if (roleKey === "subscriber") {
       closePopup();
       navigate("/register", {
         state: {
           role: roleKey,
-          plan: planOption,
         },
       });
     }

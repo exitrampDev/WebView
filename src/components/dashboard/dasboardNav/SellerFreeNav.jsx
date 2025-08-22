@@ -15,6 +15,12 @@ export default function SellerFreeNav() {
         </li>
         <li>
           <Link to="/listings">
+            <img src={icon3} alt="-" />
+            My Listing
+          </Link>
+        </li>
+        <li>
+          <Link to="/listings">
             <img src={icon2} alt="-" />
             Saved Listing
           </Link>

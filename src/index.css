@@ -1610,13 +1610,21 @@ form.p-fluid.space-y-4.register_form_col .login_block_col a {
   list-style: none;
 }
 
-.dashboard__sidebar_wrap .nav__dahboard ul li a {
+.dashboard__sidebar_wrap .nav__dahboard ul li button {
+  font-size: 16px;
   display: flex;
   align-items: center;
   color: #fff;
   text-decoration: none;
   gap: 8px;
   font-weight: 400;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  width: 100%;
+  height: fit-content;
+  cursor: pointer;
 }
 .p-menubar-end a.signup-btn {
   display: flex;
@@ -1630,6 +1638,101 @@ form.p-fluid.space-y-4.register_form_col .login_block_col a {
   border-radius: 100px;
   cursor: pointer;
   text-decoration: none;
+}
+.dasboard__content_container_wrap {
+  padding: 0 25px;
+}
+.dasboard__content_container_wrap .dashboard__header_block {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dasboard__content_container_wrap .dashboard__header_block h3 {
+  color: #002f68;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dasboard__content_container_wrap
+  .dashboard__header_block
+  .dashboard__header_search_notification_wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.dasboard__content_container_wrap
+  .dashboard__header_block
+  .dashboard__header_search_notification_wrap
+  .dashboard__search_field_wrap {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: 0px 5px 15px 0px #0000000d;
+}
+
+.dasboard__content_container_wrap
+  .dashboard__header_block
+  .dashboard__header_search_notification_wrap
+  .dashboard__search_field_wrap
+  input[type="text"] {
+  border: none;
+  outline: none;
+  color: #818a98;
+}
+
+.dasboard__content_container_wrap
+  .dashboard__header_block
+  .dashboard__header_search_notification_wrap
+  .dashboard__notification_wrap
+  button {
+  border: none;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0px 5px 15px 0px #0000000d;
+}
+
+.dasboard__content_container_wrap
+  .dashboard__header_block
+  .dashboard__header_search_notification_wrap
+  .dashboard__user_wrap
+  button {
+  border: none;
+  background: #ffb100;
+  padding: 8px;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+}
+.nav__dahboard li {
+  width: 100%;
+}
+
+.nav__dahboard ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+button.logout-btn {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: #ffb100;
+  color: #fff;
+  font-size: 15px;
+  padding: 8px 20px;
+  gap: 10px;
+  border-radius: 100px;
+  cursor: pointer;
 }
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {

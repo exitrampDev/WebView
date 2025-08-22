@@ -12,3 +12,13 @@ export const authState = atom({
     user: null,
   },
 });
+
+export const pageTitleAtom = atom({
+  key: "pageTitleAtom",
+  default: "Dashboard",
+});
+
+export const activePageAtom = atom({
+  key: "activePage",
+  default: "Dashboard", // default page
+});

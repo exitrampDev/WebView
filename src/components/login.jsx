@@ -45,7 +45,7 @@ const accountTypes = [
     icon: icon4,
     title: "I Just Want Updates",
     description: "Sign up for insights and M&A market news.",
-    value: "Subscriber",
+    value: "subscriber",
   },
 ];
 
