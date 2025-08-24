@@ -1,39 +1,44 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
-import { activePageAtom } from "../../../recoil/ctaState";
+import { NavLink } from "react-router-dom";
 import icon1 from "../../../assets/d-icon.png";
 import icon2 from "../../../assets/d-icon1.png";
 import icon3 from "../../../assets/d-icon2.png";
 
-export default function SelleListingNav() {
-  const setActivePage = useSetRecoilState(activePageAtom);
-
-  const handleClick = (page) => {
-    setActivePage(page);
-  };
-
+export default function SellerListingNav() {
   return (
-    <div className="nav__dahboard">
+    <div className="nav__dashboard">
       <ul>
         <li>
-          <button onClick={() => handleClick("Dashboard")}>
-            <img src={icon1} alt="-" /> Dashboard
-          </button>
+          <NavLink
+            to="/user/dashboard"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <img src={icon1} alt="Dashboard" /> Dashboard
+          </NavLink>
         </li>
         <li>
-          <button onClick={() => handleClick("Saved Listing")}>
-            <img src={icon2} alt="-" /> Saved Listing
-          </button>
+          <NavLink
+            to="/user/saved-listing"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <img src={icon2} alt="Saved Listing" /> Saved Listing
+          </NavLink>
         </li>
         <li>
-          <button onClick={() => handleClick("My Listing")}>
-            <img src={icon2} alt="-" /> My Listing
-          </button>
+          <NavLink
+            to="/user/my-listing"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <img src={icon2} alt="My Listing" /> My Listing
+          </NavLink>
         </li>
         <li>
-          <button onClick={() => handleClick("Recently Viewed")}>
-            <img src={icon3} alt="-" /> Recently Viewed
-          </button>
+          <NavLink
+            to="/user/recently-viewed"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <img src={icon3} alt="Recently Viewed" /> Recently Viewed
+          </NavLink>
         </li>
       </ul>
     </div>

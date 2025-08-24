@@ -30,6 +30,13 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {/* dashboard pages */}
+        {/* <Route path="user/dashboard" element={<Dashboard />} />
+        <Route path="user/saved-listing" element={<Dashboard />} />
+        <Route path="user/my-listing" element={<Dashboard />} />
+        <Route path="user/recently-viewed" element={<Dashboard />} /> */}
+
+        <Route path="user" element={<Dashboard />} />
       </Routes>
     </>
   );
