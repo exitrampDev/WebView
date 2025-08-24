@@ -226,7 +226,7 @@ const Login = () => {
 
       setAuth({ access_token: token, user });
       setMessage("Login successful!");
-      navigate("/dashboard");
+      navigate("/user/dashboard");
     } catch (error) {
       setMessage(
         "Login failed. " +

@@ -11,9 +11,11 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/dashboard/dashboard";
+import SellerListing from "./components/dashboard/DasboardContentComponents/SellerListing";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import DashboardContent from "./components/dashboard/dashboardContent";
 
 const App = () => {
   return (
@@ -36,7 +38,12 @@ const App = () => {
         <Route path="user/my-listing" element={<Dashboard />} />
         <Route path="user/recently-viewed" element={<Dashboard />} /> */}
 
-        <Route path="user" element={<Dashboard />} />
+        <Route path="user" element={<Dashboard />}>
+          <Route path="dashboard" element={<DashboardContent />} />
+          <Route path="saved-listing" element={<div>Saved Listing</div>} />
+          <Route path="my-listing" element={<SellerListing />} />
+          <Route path="recently-viewed" element={<>adds</>} />
+        </Route>
       </Routes>
     </>
   );
