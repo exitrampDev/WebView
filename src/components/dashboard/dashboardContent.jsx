@@ -24,44 +24,51 @@ const dashboardContent = () => {
   };
   return (
     <>
-      <div className="dashboard__header_block">
-        <h3>{renderPage()} </h3>
-        <div className="dashboard__header_search_notification_wrap">
-          <div className="dashboard__search_field_wrap">
-            <input type="text" placeholder="Search" />
-            <img src={serachIcon} alt="" />
-          </div>
-          <div className="dashboard__notification_wrap">
-            <button>
-              <img src={notifInfo} alt="" />
-            </button>
-          </div>
-          <div className="dashboard__user_wrap">
-            <button>
-              <img src={userImg} alt="" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {activePage === "Dashboard" && (
+      {user.user_type === "admin" ? (
+        "My Admin Dash"
+      ) : (
         <>
-          <h4>
-            👋 Welcome, {user?.first_name} {user?.last_name}{" "}
-          </h4>
-          <p>
-            Let’s get your first business listing published and connect with
-            qualified buyers.
-          </p>
-        </>
-      )}
+          <div className="dashboard__header_block">
+            <h3>{renderPage()} </h3>
+            <div className="dashboard__header_search_notification_wrap">
+              <div className="dashboard__search_field_wrap">
+                <input type="text" placeholder="Search" />
+                <img src={serachIcon} alt="" />
+              </div>
+              <div className="dashboard__notification_wrap">
+                <button>
+                  <img src={notifInfo} alt="" />
+                </button>
+              </div>
+              <div className="dashboard__user_wrap">
+                <button>
+                  <img src={userImg} alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
 
-      {activePage === "My Listing" && (
-        <>
-          <SellerListing />
+          {activePage === "Dashboard" && (
+            <>
+              <h4>
+                👋 Welcome, {user?.first_name} {user?.last_name}{" "}
+              </h4>
+              <p>
+                Let’s get your first business listing published and connect with
+                qualified buyers.
+              </p>
+            </>
+          )}
+
+          {activePage === "My Listing" && (
+            <>
+              <SellerListing />
+            </>
+          )}
         </>
       )}
     </>
   );
 };
+
 export default dashboardContent;

@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import SellerFreeNav from "./dasboardNav/SellerFreeNav";
 import SelleListingNav from "./dasboardNav/SelleListingNav";
 import { useNavigate } from "react-router-dom";
+import AdminNav from "./dasboardNav/AdminNav";
 
 const DashboardSidebar = () => {
   const user = useRecoilValue(authState).user;
@@ -25,6 +26,7 @@ const DashboardSidebar = () => {
       {user?.user_type === "buyer" ? <SellerFreeNav /> : " "}
       {user?.user_type === "subscriber" ? <SellerFreeNav /> : " "}
       {user?.user_type === "m&a_expert" ? <SellerFreeNav /> : " "}
+      {user?.user_type === "admin" ? <AdminNav /> : " "}
       <button onClick={handleLogout} className="logout-btn">
         Logout
       </button>
