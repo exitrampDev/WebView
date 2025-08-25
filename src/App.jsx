@@ -16,6 +16,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import DashboardContent from "./components/dashboard/dashboardContent";
+import AdminUsersShow from "./components/dashboard/AdminContent/AdminUserShow";
 
 const App = () => {
   return (
@@ -43,6 +44,10 @@ const App = () => {
           <Route path="saved-listing" element={<div>Saved Listing</div>} />
           <Route path="my-listing" element={<SellerListing />} />
           <Route path="recently-viewed" element={<>adds</>} />
+        </Route>
+        <Route path="admin" element={<Dashboard />}>
+          <Route path="users" element={<AdminUsersShow />} />
+          <Route path="inquiries" element={"inquiries are here!"} />
         </Route>
       </Routes>
     </>

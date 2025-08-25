@@ -13,12 +13,33 @@ import { Dialog } from "primereact/dialog";
 import notifInfo from "../../../assets/notifInfo.png";
 import serachIcon from "../../../assets/serachIcon.png";
 import userImg from "../../../assets/userImg.png";
+import { MultiSelect } from "primereact/multiselect";
+import { FileUpload } from "primereact/fileupload";
 
 export default function SellerListing() {
   const { user, access_token } = useRecoilValue(authState) ?? {};
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const entityTypes = [
+    { label: "LLC", value: "LLC" },
+    { label: "C-Corp", value: "C-Corp" },
+    { label: "S-Corp", value: "S-Corp" },
+    { label: "LLP", value: "LLP" },
+    { label: "Sole Proprietorship", value: "Sole Proprietorship" },
+    { label: "PLLC", value: "PLLC" },
+    { label: "LP", value: "LP" },
+    { label: "Other", value: "Other" },
+  ];
+  const industryOptions = [
+    { label: "Technology", value: "Technology" },
+    { label: "Healthcare", value: "Healthcare" },
+    { label: "Finance", value: "Finance" },
+    { label: "Education", value: "Education" },
+    { label: "Retail", value: "Retail" },
+    { label: "Manufacturing", value: "Manufacturing" },
+    { label: "Real Estate", value: "Real Estate" },
+    { label: "Other", value: "Other" },
+  ];
   const [filters, setFilters] = useState({
     search: "",
     industry: null,
@@ -34,16 +55,17 @@ export default function SellerListing() {
     businessName: "",
     businessType: "",
     entityType: "",
-    yearStablished: "",
+    yearStablished: "", // ✅ fixed spelling
     city: "",
     state: "",
     country: "",
-    industry: "",
+    industry: [], // ✅ always array
     revenue: "",
     askingPrice: "",
     cashFlow: "",
     status: "draft",
     cimStatus: "not_ready",
+    image: "",
   });
 
   // Fetch Listings
@@ -80,9 +102,6 @@ export default function SellerListing() {
         revenue: Number(newListing.revenue),
         askingPrice: Number(newListing.askingPrice),
         cashFlow: Number(newListing.cashFlow),
-        industry: newListing.industry
-          ? newListing.industry.split(",").map((i) => i.trim())
-          : [],
       };
 
       await axios.post("http://localhost:3000/business-listing", payload, {
@@ -98,12 +117,13 @@ export default function SellerListing() {
         city: "",
         state: "",
         country: "",
-        industry: "",
+        industry: [],
         revenue: "",
         askingPrice: "",
         cashFlow: "",
         status: "draft",
         cimStatus: "not_ready",
+        image: "",
       });
       fetchListings(); // refresh table
     } catch (error) {
@@ -115,7 +135,7 @@ export default function SellerListing() {
   const listingNameTemplate = (row) => (
     <div className="flex align-items-center">
       <img
-        src={row.thumbnail || "https://via.placeholder.com/40"}
+        src={row.image || "https://via.placeholder.com/40"}
         alt={row.businessName}
         style={{ width: "40px", borderRadius: "6px", marginRight: "10px" }}
       />
@@ -127,11 +147,11 @@ export default function SellerListing() {
     <Tag
       value={row.status}
       severity={
-        row.status === "Live"
+        row.status === "published"
           ? "success"
-          : row.status === "Draft"
-          ? "danger"
-          : "warning"
+          : row.status === "draft"
+          ? "warning"
+          : "danger"
       }
     />
   );
@@ -140,9 +160,9 @@ export default function SellerListing() {
     <Tag
       value={row.cimStatus}
       severity={
-        row.cimStatus === "Ready To Share"
+        row.cimStatus === "ready"
           ? "success"
-          : row.cimStatus === "Incomplete"
+          : row.cimStatus === "in_progress"
           ? "warning"
           : "danger"
       }
@@ -168,7 +188,7 @@ export default function SellerListing() {
         label="View"
         onClick={() => console.log("View", row.id)}
       />
-      {row.status === "Live" ? (
+      {row.status === "published" ? (
         <Button
           icon="pi pi-times"
           className="p-button-text p-button-danger"
@@ -209,12 +229,14 @@ export default function SellerListing() {
           </div>
         </div>
       </div>
+
       <div className="">
         <p>
           Manage all your business listings. View, edit, publish, and control
           buyer CIM access for each listing.
         </p>
       </div>
+
       <div className="my-listings-page">
         {/* Top Filters + Create Button */}
         <div className="filters flex flex-wrap gap-3 mb-4">
@@ -234,6 +256,14 @@ export default function SellerListing() {
             options={[
               { label: "Restaurants", value: "Restaurants" },
               { label: "Logistics", value: "Logistics" },
+              { label: "E-commerce", value: "E-commerce" },
+              { label: "Healthcare", value: "Healthcare" },
+              { label: "Finance", value: "Finance" },
+              { label: "Education", value: "Education" },
+              { label: "Real Estate", value: "Real Estate" },
+              { label: "Technology", value: "Technology" },
+              { label: "Manufacturing", value: "Manufacturing" },
+              { label: "Other", value: "Other" },
             ]}
             onChange={(e) => setFilters((f) => ({ ...f, industry: e.value }))}
             placeholder="Industry"
@@ -242,9 +272,8 @@ export default function SellerListing() {
           <Dropdown
             value={filters.status}
             options={[
-              { label: "Live", value: "Live" },
-              { label: "Draft", value: "Draft" },
-              { label: "Inactive", value: "Inactive" },
+              { label: "Published", value: "published" },
+              { label: "Draft", value: "draft" },
             ]}
             onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
             placeholder="Status"
@@ -291,7 +320,7 @@ export default function SellerListing() {
           <Column header="Listing Name" body={listingNameTemplate} />
           <Column field="industry" header="Industry" />
           <Column field="status" header="Status" body={statusTemplate} />
-          <Column field="yearEstablished" header="Year" />
+          <Column field="yearStablished" header="Year" />
           <Column header="Location" body={locationTemplate} />
           <Column field="revenue" header="Revenue" body={moneyTemplate} />
           <Column
@@ -313,6 +342,32 @@ export default function SellerListing() {
           onHide={() => setShowCreateDialog(false)}
         >
           <div className="p-fluid grid">
+            {/* Image Upload */}
+            <div className="col-12">
+              <FileUpload
+                mode="basic"
+                accept="image/*"
+                maxFileSize={1000000} // 1MB limit (you can adjust)
+                chooseLabel="Upload Image"
+                auto
+                customUpload
+                uploadHandler={(e) => {
+                  // Convert file to base64 or upload to server here
+                  const file = e.files[0];
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setNewListing((f) => ({
+                      ...f,
+                      image: reader.result, // stores base64 string
+                    }));
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                className="w-full"
+              />
+            </div>
+
+            {/* Business Name */}
             <div className="col-6">
               <InputText
                 value={newListing.businessName}
@@ -322,6 +377,8 @@ export default function SellerListing() {
                 placeholder="Business Name"
               />
             </div>
+
+            {/* Business Type */}
             <div className="col-6">
               <InputText
                 value={newListing.businessType}
@@ -331,16 +388,23 @@ export default function SellerListing() {
                 placeholder="Business Type"
               />
             </div>
+
+            {/* Entity Type */}
             <div className="col-6">
-              <InputText
+              <Dropdown
                 value={newListing.entityType}
+                options={entityTypes}
                 onChange={(e) =>
-                  setNewListing((f) => ({ ...f, entityType: e.target.value }))
+                  setNewListing((f) => ({ ...f, entityType: e.value }))
                 }
-                placeholder="Entity Type"
+                placeholder="Select Entity Type"
+                className="w-full"
               />
             </div>
+
+            {/* Year Established */}
             <div className="col-6">
+              {" "}
               <InputText
                 value={newListing.yearStablished}
                 onChange={(e) =>
@@ -350,8 +414,10 @@ export default function SellerListing() {
                   }))
                 }
                 placeholder="Year Established"
-              />
+              />{" "}
             </div>
+
+            {/* City */}
             <div className="col-6">
               <InputText
                 value={newListing.city}
@@ -361,6 +427,8 @@ export default function SellerListing() {
                 placeholder="City"
               />
             </div>
+
+            {/* State */}
             <div className="col-6">
               <InputText
                 value={newListing.state}
@@ -370,6 +438,8 @@ export default function SellerListing() {
                 placeholder="State"
               />
             </div>
+
+            {/* Country */}
             <div className="col-6">
               <InputText
                 value={newListing.country}
@@ -379,15 +449,25 @@ export default function SellerListing() {
                 placeholder="Country"
               />
             </div>
+
+            {/* Industry (comma separated → array) */}
             <div className="col-6">
-              <InputText
+              <MultiSelect
                 value={newListing.industry}
+                options={industryOptions}
                 onChange={(e) =>
-                  setNewListing((f) => ({ ...f, industry: e.target.value }))
+                  setNewListing((f) => ({
+                    ...f,
+                    industry: e.value, // directly gives an array of selected values
+                  }))
                 }
-                placeholder="Industry (comma separated)"
+                placeholder="Select Industries"
+                display="chip" // shows selected values as chips
+                className="w-full"
               />
             </div>
+
+            {/* Revenue */}
             <div className="col-4">
               <InputText
                 value={newListing.revenue}
@@ -397,6 +477,8 @@ export default function SellerListing() {
                 placeholder="Revenue"
               />
             </div>
+
+            {/* Asking Price */}
             <div className="col-4">
               <InputText
                 value={newListing.askingPrice}
@@ -406,6 +488,8 @@ export default function SellerListing() {
                 placeholder="Asking Price"
               />
             </div>
+
+            {/* Cash Flow */}
             <div className="col-4">
               <InputText
                 value={newListing.cashFlow}
@@ -413,6 +497,49 @@ export default function SellerListing() {
                   setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
                 }
                 placeholder="Cash Flow"
+              />
+            </div>
+
+            {/* Status */}
+            <div className="col-6">
+              <Dropdown
+                value={newListing.status}
+                options={[
+                  { label: "Draft", value: "draft" },
+                  { label: "In Active", value: "inactive" },
+                  { label: "Live", value: "live" },
+                ]}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, status: e.value }))
+                }
+                placeholder="Status"
+              />
+            </div>
+
+            {/* CIM Status */}
+            <div className="col-6">
+              <Dropdown
+                value={newListing.cimStatus}
+                options={[
+                  { label: "Not Ready", value: "not_ready" },
+                  { label: "In Complete", value: "incomplete" },
+                  { label: "Ready", value: "ready_to_share" },
+                ]}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, cimStatus: e.value }))
+                }
+                placeholder="CIM Status"
+              />
+            </div>
+
+            {/* Image */}
+            <div className="col-12">
+              <InputText
+                value={newListing.image}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, image: e.target.value }))
+                }
+                placeholder="Image URL"
               />
             </div>
           </div>

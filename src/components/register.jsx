@@ -24,6 +24,7 @@ const Register = () => {
     phone: "",
     password: "",
     confirm_password: "",
+    phone_number: "",
     user_type: role,
     agree: false,
   });
@@ -132,7 +133,7 @@ const Register = () => {
               id="phone"
               mask="(999) 999-9999"
               name="phone"
-              value={formData.phone}
+              value={formData.phone_number}
               onChange={handleChange}
               required
             />
