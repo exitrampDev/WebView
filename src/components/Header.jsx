@@ -231,7 +231,7 @@ const Header = () => {
   );
 
   const end = auth?.access_token ? (
-    <NavLink to="/dashboard" className="signup-btn">
+    <NavLink to="/user/dashboard" className="signup-btn">
       Dashboard <img src={signIcon} alt="signIcon" />
     </NavLink>
   ) : (

@@ -10,6 +10,9 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { Dialog } from "primereact/dialog";
+import notifInfo from "../../../assets/notifInfo.png";
+import serachIcon from "../../../assets/serachIcon.png";
+import userImg from "../../../assets/userImg.png";
 
 export default function SellerListing() {
   const { user, access_token } = useRecoilValue(authState) ?? {};
@@ -185,222 +188,249 @@ export default function SellerListing() {
 
   // ==== UI ====
   return (
-    <div className="my-listings-page">
-      <h2 className="mb-2">My Listings</h2>
-      <p className="mb-4">
-        Manage all your business listings. View, edit, publish, and control CIM
-        access for each listing.
-      </p>
+    <>
+      <div className="dashboard__header_block">
+        <h3>My Listing</h3>
 
-      {/* Top Filters + Create Button */}
-      <div className="filters flex flex-wrap gap-3 mb-4">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={filters.search}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, search: e.target.value }))
-            }
-            placeholder="Search Listing"
-          />
-        </span>
-
-        <Dropdown
-          value={filters.industry}
-          options={[
-            { label: "Restaurants", value: "Restaurants" },
-            { label: "Logistics", value: "Logistics" },
-          ]}
-          onChange={(e) => setFilters((f) => ({ ...f, industry: e.value }))}
-          placeholder="Industry"
-        />
-
-        <Dropdown
-          value={filters.status}
-          options={[
-            { label: "Live", value: "Live" },
-            { label: "Draft", value: "Draft" },
-            { label: "Inactive", value: "Inactive" },
-          ]}
-          onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
-          placeholder="Status"
-        />
-
-        <InputText
-          value={filters.year || ""}
-          onChange={(e) => setFilters((f) => ({ ...f, year: e.target.value }))}
-          placeholder="Year"
-        />
-
-        <InputText
-          value={filters.location || ""}
-          onChange={(e) =>
-            setFilters((f) => ({ ...f, location: e.target.value }))
-          }
-          placeholder="Location"
-        />
-
-        <Calendar
-          value={filters.lastEdited}
-          onChange={(e) => setFilters((f) => ({ ...f, lastEdited: e.value }))}
-          placeholder="Last Edited"
-          showIcon
-        />
-
-        <Button
-          label="Create Listing"
-          icon="pi pi-plus"
-          onClick={() => setShowCreateDialog(true)}
-        />
+        <div className="dashboard__header_search_notification_wrap">
+          <div className="dashboard__search_field_wrap">
+            <input type="text" placeholder="Search" />
+            <img src={serachIcon} alt="" />
+          </div>
+          <div className="dashboard__notification_wrap">
+            <button>
+              <img src={notifInfo} alt="" />
+            </button>
+          </div>
+          <div className="dashboard__user_wrap">
+            <button>
+              <img src={userImg} alt="" />
+            </button>
+          </div>
+        </div>
       </div>
+      <div className="">
+        <p>
+          Manage all your business listings. View, edit, publish, and control
+          buyer CIM access for each listing.
+        </p>
+      </div>
+      <div className="my-listings-page">
+        {/* Top Filters + Create Button */}
+        <div className="filters flex flex-wrap gap-3 mb-4">
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText
+              value={filters.search}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, search: e.target.value }))
+              }
+              placeholder="Search Listing"
+            />
+          </span>
 
-      {/* Data Table */}
-      <DataTable
-        value={listings}
-        paginator
-        rows={10}
-        loading={loading}
-        responsiveLayout="scroll"
-      >
-        <Column header="Listing Name" body={listingNameTemplate} />
-        <Column field="industry" header="Industry" />
-        <Column field="status" header="Status" body={statusTemplate} />
-        <Column field="yearEstablished" header="Year" />
-        <Column header="Location" body={locationTemplate} />
-        <Column field="revenue" header="Revenue" body={moneyTemplate} />
-        <Column
-          field="askingPrice"
-          header="Asking Price"
-          body={moneyTemplate}
-        />
-        <Column field="cimStatus" header="CIM Status" body={cimTemplate} />
-        <Column field="views" header="Views" />
-        <Column header="Last Edited" body={dateTemplate} />
-        <Column header="Action" body={actionTemplate} />
-      </DataTable>
-
-      {/* Create Listing Dialog */}
-      <Dialog
-        header="Create New Listing"
-        visible={showCreateDialog}
-        style={{ width: "50vw" }}
-        onHide={() => setShowCreateDialog(false)}
-      >
-        <div className="p-fluid grid">
-          <div className="col-6">
-            <InputText
-              value={newListing.businessName}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, businessName: e.target.value }))
-              }
-              placeholder="Business Name"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.businessType}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, businessType: e.target.value }))
-              }
-              placeholder="Business Type"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.entityType}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, entityType: e.target.value }))
-              }
-              placeholder="Entity Type"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.yearStablished}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, yearStablished: e.target.value }))
-              }
-              placeholder="Year Established"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.city}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, city: e.target.value }))
-              }
-              placeholder="City"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.state}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, state: e.target.value }))
-              }
-              placeholder="State"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.country}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, country: e.target.value }))
-              }
-              placeholder="Country"
-            />
-          </div>
-          <div className="col-6">
-            <InputText
-              value={newListing.industry}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, industry: e.target.value }))
-              }
-              placeholder="Industry (comma separated)"
-            />
-          </div>
-          <div className="col-4">
-            <InputText
-              value={newListing.revenue}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, revenue: e.target.value }))
-              }
-              placeholder="Revenue"
-            />
-          </div>
-          <div className="col-4">
-            <InputText
-              value={newListing.askingPrice}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, askingPrice: e.target.value }))
-              }
-              placeholder="Asking Price"
-            />
-          </div>
-          <div className="col-4">
-            <InputText
-              value={newListing.cashFlow}
-              onChange={(e) =>
-                setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
-              }
-              placeholder="Cash Flow"
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-content-end mt-3">
-          <Button
-            label="Cancel"
-            className="p-button-text"
-            onClick={() => setShowCreateDialog(false)}
+          <Dropdown
+            value={filters.industry}
+            options={[
+              { label: "Restaurants", value: "Restaurants" },
+              { label: "Logistics", value: "Logistics" },
+            ]}
+            onChange={(e) => setFilters((f) => ({ ...f, industry: e.value }))}
+            placeholder="Industry"
           />
+
+          <Dropdown
+            value={filters.status}
+            options={[
+              { label: "Live", value: "Live" },
+              { label: "Draft", value: "Draft" },
+              { label: "Inactive", value: "Inactive" },
+            ]}
+            onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
+            placeholder="Status"
+          />
+
+          <InputText
+            value={filters.year || ""}
+            onChange={(e) =>
+              setFilters((f) => ({ ...f, year: e.target.value }))
+            }
+            placeholder="Year"
+          />
+
+          <InputText
+            value={filters.location || ""}
+            onChange={(e) =>
+              setFilters((f) => ({ ...f, location: e.target.value }))
+            }
+            placeholder="Location"
+          />
+
+          <Calendar
+            value={filters.lastEdited}
+            onChange={(e) => setFilters((f) => ({ ...f, lastEdited: e.value }))}
+            placeholder="Last Edited"
+            showIcon
+          />
+
           <Button
-            label="Create"
-            icon="pi pi-check"
-            onClick={handleCreateListing}
+            label="Create Listing"
+            icon="pi pi-plus"
+            onClick={() => setShowCreateDialog(true)}
           />
         </div>
-      </Dialog>
-    </div>
+
+        {/* Data Table */}
+        <DataTable
+          value={listings}
+          paginator
+          rows={10}
+          loading={loading}
+          responsiveLayout="scroll"
+        >
+          <Column header="Listing Name" body={listingNameTemplate} />
+          <Column field="industry" header="Industry" />
+          <Column field="status" header="Status" body={statusTemplate} />
+          <Column field="yearEstablished" header="Year" />
+          <Column header="Location" body={locationTemplate} />
+          <Column field="revenue" header="Revenue" body={moneyTemplate} />
+          <Column
+            field="askingPrice"
+            header="Asking Price"
+            body={moneyTemplate}
+          />
+          <Column field="cimStatus" header="CIM Status" body={cimTemplate} />
+          <Column field="views" header="Views" />
+          <Column header="Last Edited" body={dateTemplate} />
+          <Column header="Action" body={actionTemplate} />
+        </DataTable>
+
+        {/* Create Listing Dialog */}
+        <Dialog
+          header="Create New Listing"
+          visible={showCreateDialog}
+          style={{ width: "50vw" }}
+          onHide={() => setShowCreateDialog(false)}
+        >
+          <div className="p-fluid grid">
+            <div className="col-6">
+              <InputText
+                value={newListing.businessName}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, businessName: e.target.value }))
+                }
+                placeholder="Business Name"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.businessType}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, businessType: e.target.value }))
+                }
+                placeholder="Business Type"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.entityType}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, entityType: e.target.value }))
+                }
+                placeholder="Entity Type"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.yearStablished}
+                onChange={(e) =>
+                  setNewListing((f) => ({
+                    ...f,
+                    yearStablished: e.target.value,
+                  }))
+                }
+                placeholder="Year Established"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.city}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, city: e.target.value }))
+                }
+                placeholder="City"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.state}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, state: e.target.value }))
+                }
+                placeholder="State"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.country}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, country: e.target.value }))
+                }
+                placeholder="Country"
+              />
+            </div>
+            <div className="col-6">
+              <InputText
+                value={newListing.industry}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, industry: e.target.value }))
+                }
+                placeholder="Industry (comma separated)"
+              />
+            </div>
+            <div className="col-4">
+              <InputText
+                value={newListing.revenue}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, revenue: e.target.value }))
+                }
+                placeholder="Revenue"
+              />
+            </div>
+            <div className="col-4">
+              <InputText
+                value={newListing.askingPrice}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, askingPrice: e.target.value }))
+                }
+                placeholder="Asking Price"
+              />
+            </div>
+            <div className="col-4">
+              <InputText
+                value={newListing.cashFlow}
+                onChange={(e) =>
+                  setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
+                }
+                placeholder="Cash Flow"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-content-end mt-3">
+            <Button
+              label="Cancel"
+              className="p-button-text"
+              onClick={() => setShowCreateDialog(false)}
+            />
+            <Button
+              label="Create"
+              icon="pi pi-check"
+              onClick={handleCreateListing}
+            />
+          </div>
+        </Dialog>
+      </div>
+    </>
   );
 }
