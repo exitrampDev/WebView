@@ -1735,6 +1735,14 @@ button.logout-btn {
   border-radius: 100px;
   cursor: pointer;
 }
+.listing__main_wrap td {
+  min-width: 150px;
+}
+
+.listing__main_wrap td .flex.align-items-center {
+  display: flex;
+  align-items: center;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Card } from "primereact/card";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../../recoil/ctaState";
 import axios from "axios";
@@ -142,6 +143,12 @@ export default function SellerListing() {
       <span>{row.businessName}</span>
     </div>
   );
+  const industryTemplate = (row) => {
+    if (Array.isArray(row.industry) && row.industry.length) {
+      return row.industry.join(" | ");
+    }
+    return "-"; // fallback if empty
+  };
 
   const statusTemplate = (row) => (
     <Tag
@@ -180,383 +187,473 @@ export default function SellerListing() {
       ? new Date(row.lastEdited).toLocaleDateString()
       : "Not Edited";
 
+  const handleDeleteListing = async (id) => {
+    console.log("id >>>>>>>>>", id);
+    if (!window.confirm("Are you sure you want to delete this listing?"))
+      return;
+
+    try {
+      await axios.delete(`http://localhost:3000/business-listing/${id}`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      // Refresh table
+      fetchListings();
+    } catch (error) {
+      console.error("Error deleting listing:", error);
+    }
+  };
+
   const actionTemplate = (row) => (
-    <div className="flex gap-2">
-      <Button
-        icon="pi pi-eye"
-        className="p-button-text"
-        label="View"
-        onClick={() => console.log("View", row.id)}
-      />
+    <div className="flex gap-3 text-lg">
+      <i
+        className="pi pi-eye cursor-pointer text-blue-500 hover:text-blue-700"
+        onClick={() => console.log("View", row._id)}
+      ></i>
+
       {row.status === "published" ? (
-        <Button
-          icon="pi pi-times"
-          className="p-button-text p-button-danger"
-          label="Unpublish"
-          onClick={() => console.log("Unpublish", row.id)}
-        />
+        <i
+          className="pi pi-times cursor-pointer text-red-500 hover:text-red-700"
+          onClick={() => console.log("Unpublish", row._id)}
+        ></i>
       ) : (
-        <Button
-          icon="pi pi-upload"
-          className="p-button-text p-button-success"
-          label="Publish"
-          onClick={() => console.log("Publish", row.id)}
-        />
+        <i
+          className="pi pi-upload cursor-pointer text-green-500 hover:text-green-700"
+          onClick={() => console.log("Publish", row._id)}
+        ></i>
       )}
+
+      <i
+        className="pi pi-trash cursor-pointer text-red-500 hover:text-red-700"
+        onClick={() => handleDeleteListing(row._id)}
+      ></i>
     </div>
   );
 
   // ==== UI ====
   return (
     <>
-      <div className="dashboard__header_block">
-        <h3>My Listing</h3>
-
-        <div className="dashboard__header_search_notification_wrap">
-          <div className="dashboard__search_field_wrap">
-            <input type="text" placeholder="Search" />
-            <img src={serachIcon} alt="" />
-          </div>
-          <div className="dashboard__notification_wrap">
-            <button>
-              <img src={notifInfo} alt="" />
-            </button>
-          </div>
-          <div className="dashboard__user_wrap">
-            <button>
-              <img src={userImg} alt="" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="">
-        <p>
-          Manage all your business listings. View, edit, publish, and control
-          buyer CIM access for each listing.
-        </p>
-      </div>
-
       <div className="my-listings-page">
-        {/* Top Filters + Create Button */}
-        <div className="filters flex flex-wrap gap-3 mb-4">
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText
-              value={filters.search}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, search: e.target.value }))
-              }
-              placeholder="Search Listing"
-            />
-          </span>
+        {showCreateDialog ? (
+          <>
+            <div className="dashboard__header_block">
+              <h3 className="heading__Digital_CIM">
+                {" "}
+                Confidential Information Memorandum
+              </h3>
 
-          <Dropdown
-            value={filters.industry}
-            options={[
-              { label: "Restaurants", value: "Restaurants" },
-              { label: "Logistics", value: "Logistics" },
-              { label: "E-commerce", value: "E-commerce" },
-              { label: "Healthcare", value: "Healthcare" },
-              { label: "Finance", value: "Finance" },
-              { label: "Education", value: "Education" },
-              { label: "Real Estate", value: "Real Estate" },
-              { label: "Technology", value: "Technology" },
-              { label: "Manufacturing", value: "Manufacturing" },
-              { label: "Other", value: "Other" },
-            ]}
-            onChange={(e) => setFilters((f) => ({ ...f, industry: e.value }))}
-            placeholder="Industry"
-          />
-
-          <Dropdown
-            value={filters.status}
-            options={[
-              { label: "Published", value: "published" },
-              { label: "Draft", value: "draft" },
-            ]}
-            onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
-            placeholder="Status"
-          />
-
-          <InputText
-            value={filters.year || ""}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, year: e.target.value }))
-            }
-            placeholder="Year"
-          />
-
-          <InputText
-            value={filters.location || ""}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, location: e.target.value }))
-            }
-            placeholder="Location"
-          />
-
-          <Calendar
-            value={filters.lastEdited}
-            onChange={(e) => setFilters((f) => ({ ...f, lastEdited: e.value }))}
-            placeholder="Last Edited"
-            showIcon
-          />
-
-          <Button
-            label="Create Listing"
-            icon="pi pi-plus"
-            onClick={() => setShowCreateDialog(true)}
-          />
-        </div>
-
-        {/* Data Table */}
-        <DataTable
-          value={listings}
-          paginator
-          rows={10}
-          loading={loading}
-          responsiveLayout="scroll"
-        >
-          <Column header="Listing Name" body={listingNameTemplate} />
-          <Column field="industry" header="Industry" />
-          <Column field="status" header="Status" body={statusTemplate} />
-          <Column field="yearStablished" header="Year" />
-          <Column header="Location" body={locationTemplate} />
-          <Column field="revenue" header="Revenue" body={moneyTemplate} />
-          <Column
-            field="askingPrice"
-            header="Asking Price"
-            body={moneyTemplate}
-          />
-          <Column field="cimStatus" header="CIM Status" body={cimTemplate} />
-          <Column field="views" header="Views" />
-          <Column header="Last Edited" body={dateTemplate} />
-          <Column header="Action" body={actionTemplate} />
-        </DataTable>
-
-        {/* Create Listing Dialog */}
-        <Dialog
-          header="Create New Listing"
-          visible={showCreateDialog}
-          style={{ width: "50vw" }}
-          onHide={() => setShowCreateDialog(false)}
-        >
-          <div className="p-fluid grid">
-            {/* Image Upload */}
-            <div className="col-12">
-              <FileUpload
-                mode="basic"
-                accept="image/*"
-                maxFileSize={1000000} // 1MB limit (you can adjust)
-                chooseLabel="Upload Image"
-                auto
-                customUpload
-                uploadHandler={(e) => {
-                  // Convert file to base64 or upload to server here
-                  const file = e.files[0];
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    setNewListing((f) => ({
-                      ...f,
-                      image: reader.result, // stores base64 string
-                    }));
-                  };
-                  reader.readAsDataURL(file);
-                }}
-                className="w-full"
-              />
+              <div className="dashboard__header_search_notification_wrap">
+                <div className="dashboard__search_field_wrap">
+                  <input type="text" placeholder="Search" />
+                  <img src={serachIcon} alt="" />
+                </div>
+                <div className="dashboard__notification_wrap">
+                  <button>
+                    <img src={notifInfo} alt="" />
+                  </button>
+                </div>
+                <div className="dashboard__user_wrap">
+                  <button>
+                    <img src={userImg} alt="" />
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Business Name */}
-            <div className="col-6">
-              <InputText
-                value={newListing.businessName}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, businessName: e.target.value }))
-                }
-                placeholder="Business Name"
-              />
+            <div className="">
+              <p>
+                Manage all your business listings. View, edit, publish, and
+                control buyer CIM access for each listing.
+              </p>
+            </div>
+            <div className="">
+              <div className="p-fluid grid">
+                {/* Business Name */}
+                <div className="col-6">
+                  <InputText
+                    value={newListing.businessName}
+                    onChange={(e) =>
+                      setNewListing((f) => ({
+                        ...f,
+                        businessName: e.target.value,
+                      }))
+                    }
+                    placeholder="Business Name"
+                  />
+                </div>
+
+                {/* Business Type */}
+                <div className="col-6">
+                  <InputText
+                    value={newListing.businessType}
+                    onChange={(e) =>
+                      setNewListing((f) => ({
+                        ...f,
+                        businessType: e.target.value,
+                      }))
+                    }
+                    placeholder="Business Type"
+                  />
+                </div>
+
+                {/* Entity Type */}
+                <div className="col-6">
+                  <Dropdown
+                    value={newListing.entityType}
+                    options={entityTypes}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, entityType: e.value }))
+                    }
+                    placeholder="Select Entity Type"
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Year Established (Calendar - year only) */}
+                <div className="col-6">
+                  <Calendar
+                    value={newListing.yearStablished}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, yearStablished: e.value }))
+                    }
+                    view="year"
+                    dateFormat="yy"
+                    placeholder="Year Established"
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Location */}
+                <div className="col-4">
+                  <InputText
+                    value={newListing.city}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, city: e.target.value }))
+                    }
+                    placeholder="City"
+                  />
+                </div>
+                <div className="col-4">
+                  <InputText
+                    value={newListing.state}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, state: e.target.value }))
+                    }
+                    placeholder="State"
+                  />
+                </div>
+                <div className="col-4">
+                  <InputText
+                    value={newListing.country}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, country: e.target.value }))
+                    }
+                    placeholder="Country"
+                  />
+                </div>
+
+                {/* Industry */}
+                <div className="col-12">
+                  <MultiSelect
+                    value={newListing.industry}
+                    options={industryOptions}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, industry: e.value }))
+                    }
+                    placeholder="Select Industries"
+                    display="chip"
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Financials */}
+                <div className="col-4">
+                  <InputText
+                    value={newListing.revenue}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, revenue: e.target.value }))
+                    }
+                    placeholder="Revenue"
+                  />
+                </div>
+                <div className="col-4">
+                  <InputText
+                    value={newListing.askingPrice}
+                    onChange={(e) =>
+                      setNewListing((f) => ({
+                        ...f,
+                        askingPrice: e.target.value,
+                      }))
+                    }
+                    placeholder="Asking Price"
+                  />
+                </div>
+                <div className="col-4">
+                  <InputText
+                    value={newListing.cashFlow}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
+                    }
+                    placeholder="Cash Flow"
+                  />
+                </div>
+
+                {/* Status */}
+                <div className="col-6">
+                  <Dropdown
+                    value={newListing.status}
+                    options={[
+                      { label: "Draft", value: "draft" },
+                      { label: "Inactive", value: "inactive" },
+                      { label: "Live", value: "live" },
+                      { label: "Published", value: "published" },
+                    ]}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, status: e.value }))
+                    }
+                    placeholder="Status"
+                  />
+                </div>
+
+                {/* CIM Status */}
+                <div className="col-6">
+                  <Dropdown
+                    value={newListing.cimStatus}
+                    options={[
+                      { label: "Not Ready", value: "not_ready" },
+                      { label: "Incomplete", value: "incomplete" },
+                      { label: "Ready to Share", value: "ready_to_share" },
+                    ]}
+                    onChange={(e) =>
+                      setNewListing((f) => ({ ...f, cimStatus: e.value }))
+                    }
+                    placeholder="CIM Status"
+                  />
+                </div>
+
+                {/* Image Upload */}
+                <div className="col-12">
+                  <FileUpload
+                    mode="basic"
+                    accept="image/*"
+                    maxFileSize={1000000}
+                    chooseLabel="Upload Image"
+                    auto
+                    customUpload
+                    uploadHandler={(e) => {
+                      const file = e.files[0];
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setNewListing((f) => ({
+                          ...f,
+                          image: reader.result,
+                        }));
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Financial Documents */}
+                <div className="col-12">
+                  <FileUpload
+                    mode="basic"
+                    accept=".pdf,.doc,.docx"
+                    chooseLabel="Upload P&L File"
+                    customUpload
+                    auto
+                    uploadHandler={(e) => {
+                      setNewListing((f) => ({
+                        ...f,
+                        profitAndLossFile: e.files[0].name,
+                      }));
+                    }}
+                  />
+                </div>
+
+                <div className="col-12">
+                  <FileUpload
+                    mode="basic"
+                    accept=".pdf,.doc,.docx"
+                    chooseLabel="Upload Balance Sheet"
+                    customUpload
+                    auto
+                    uploadHandler={(e) => {
+                      setNewListing((f) => ({
+                        ...f,
+                        balanceSheetFile: e.files[0].name,
+                      }));
+                    }}
+                  />
+                </div>
+
+                <div className="col-12">
+                  <FileUpload
+                    mode="basic"
+                    accept=".pdf,.doc,.docx"
+                    chooseLabel="Upload 3-Year Tax Return"
+                    customUpload
+                    auto
+                    uploadHandler={(e) => {
+                      setNewListing((f) => ({
+                        ...f,
+                        threeYearTaxReturnFile: e.files[0].name,
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-content-end mt-3 gap-2">
+                <Button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  className="p-button-secondary"
+                  onClick={() => setShowCreateDialog(false)}
+                />
+                <Button
+                  label="Create"
+                  icon="pi pi-check"
+                  onClick={handleCreateListing}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="dashboard__header_block">
+              <h3>My Listing</h3>
+
+              <div className="dashboard__header_search_notification_wrap">
+                <div className="dashboard__search_field_wrap">
+                  <input type="text" placeholder="Search" />
+                  <img src={serachIcon} alt="" />
+                </div>
+                <div className="dashboard__notification_wrap">
+                  <button>
+                    <img src={notifInfo} alt="" />
+                  </button>
+                </div>
+                <div className="dashboard__user_wrap">
+                  <button>
+                    <img src={userImg} alt="" />
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Business Type */}
-            <div className="col-6">
-              <InputText
-                value={newListing.businessType}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, businessType: e.target.value }))
-                }
-                placeholder="Business Type"
-              />
+            <div className="">
+              <p>
+                Manage all your business listings. View, edit, publish, and
+                control buyer CIM access for each listing.
+              </p>
             </div>
+            {/* Top Filters + Create Button */}
+            <div className="filters flex flex-wrap gap-3 mb-4">
+              <span className="p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText
+                  value={filters.search}
+                  onChange={(e) =>
+                    setFilters((f) => ({ ...f, search: e.target.value }))
+                  }
+                  placeholder="Search Listing"
+                />
+              </span>
 
-            {/* Entity Type */}
-            <div className="col-6">
               <Dropdown
-                value={newListing.entityType}
-                options={entityTypes}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, entityType: e.value }))
-                }
-                placeholder="Select Entity Type"
-                className="w-full"
-              />
-            </div>
-
-            {/* Year Established */}
-            <div className="col-6">
-              {" "}
-              <InputText
-                value={newListing.yearStablished}
-                onChange={(e) =>
-                  setNewListing((f) => ({
-                    ...f,
-                    yearStablished: e.target.value,
-                  }))
-                }
-                placeholder="Year Established"
-              />{" "}
-            </div>
-
-            {/* City */}
-            <div className="col-6">
-              <InputText
-                value={newListing.city}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, city: e.target.value }))
-                }
-                placeholder="City"
-              />
-            </div>
-
-            {/* State */}
-            <div className="col-6">
-              <InputText
-                value={newListing.state}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, state: e.target.value }))
-                }
-                placeholder="State"
-              />
-            </div>
-
-            {/* Country */}
-            <div className="col-6">
-              <InputText
-                value={newListing.country}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, country: e.target.value }))
-                }
-                placeholder="Country"
-              />
-            </div>
-
-            {/* Industry (comma separated → array) */}
-            <div className="col-6">
-              <MultiSelect
-                value={newListing.industry}
-                options={industryOptions}
-                onChange={(e) =>
-                  setNewListing((f) => ({
-                    ...f,
-                    industry: e.value, // directly gives an array of selected values
-                  }))
-                }
-                placeholder="Select Industries"
-                display="chip" // shows selected values as chips
-                className="w-full"
-              />
-            </div>
-
-            {/* Revenue */}
-            <div className="col-4">
-              <InputText
-                value={newListing.revenue}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, revenue: e.target.value }))
-                }
-                placeholder="Revenue"
-              />
-            </div>
-
-            {/* Asking Price */}
-            <div className="col-4">
-              <InputText
-                value={newListing.askingPrice}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, askingPrice: e.target.value }))
-                }
-                placeholder="Asking Price"
-              />
-            </div>
-
-            {/* Cash Flow */}
-            <div className="col-4">
-              <InputText
-                value={newListing.cashFlow}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
-                }
-                placeholder="Cash Flow"
-              />
-            </div>
-
-            {/* Status */}
-            <div className="col-6">
-              <Dropdown
-                value={newListing.status}
+                value={filters.industry}
                 options={[
-                  { label: "Draft", value: "draft" },
-                  { label: "In Active", value: "inactive" },
-                  { label: "Live", value: "live" },
+                  { label: "Restaurants", value: "Restaurants" },
+                  { label: "Logistics", value: "Logistics" },
+                  { label: "E-commerce", value: "E-commerce" },
+                  { label: "Healthcare", value: "Healthcare" },
+                  { label: "Finance", value: "Finance" },
+                  { label: "Education", value: "Education" },
+                  { label: "Real Estate", value: "Real Estate" },
+                  { label: "Technology", value: "Technology" },
+                  { label: "Manufacturing", value: "Manufacturing" },
+                  { label: "Other", value: "Other" },
                 ]}
                 onChange={(e) =>
-                  setNewListing((f) => ({ ...f, status: e.value }))
+                  setFilters((f) => ({ ...f, industry: e.value }))
                 }
+                placeholder="Industry"
+              />
+
+              <Dropdown
+                value={filters.status}
+                options={[
+                  { label: "Published", value: "published" },
+                  { label: "Draft", value: "draft" },
+                ]}
+                onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
                 placeholder="Status"
               />
-            </div>
 
-            {/* CIM Status */}
-            <div className="col-6">
-              <Dropdown
-                value={newListing.cimStatus}
-                options={[
-                  { label: "Not Ready", value: "not_ready" },
-                  { label: "In Complete", value: "incomplete" },
-                  { label: "Ready", value: "ready_to_share" },
-                ]}
-                onChange={(e) =>
-                  setNewListing((f) => ({ ...f, cimStatus: e.value }))
-                }
-                placeholder="CIM Status"
-              />
-            </div>
-
-            {/* Image */}
-            <div className="col-12">
               <InputText
-                value={newListing.image}
+                value={filters.year || ""}
                 onChange={(e) =>
-                  setNewListing((f) => ({ ...f, image: e.target.value }))
+                  setFilters((f) => ({ ...f, year: e.target.value }))
                 }
-                placeholder="Image URL"
+                placeholder="Year"
+              />
+
+              <InputText
+                value={filters.location || ""}
+                onChange={(e) =>
+                  setFilters((f) => ({ ...f, location: e.target.value }))
+                }
+                placeholder="Location"
+              />
+
+              <Calendar
+                value={filters.lastEdited}
+                onChange={(e) =>
+                  setFilters((f) => ({ ...f, lastEdited: e.value }))
+                }
+                placeholder="Last Edited"
+                showIcon
+              />
+
+              <Button
+                label="Create Listing"
+                icon="pi pi-plus"
+                onClick={() => setShowCreateDialog((prev) => !prev)}
               />
             </div>
-          </div>
-
-          <div className="flex justify-content-end mt-3">
-            <Button
-              label="Cancel"
-              className="p-button-text"
-              onClick={() => setShowCreateDialog(false)}
-            />
-            <Button
-              label="Create"
-              icon="pi pi-check"
-              onClick={handleCreateListing}
-            />
-          </div>
-        </Dialog>
+            {/* Data Table */}
+            <DataTable
+              value={listings}
+              paginator
+              rows={10}
+              loading={loading}
+              responsiveLayout="scroll"
+              className="listing__main_wrap"
+            >
+              <Column header="Listing Name" body={listingNameTemplate} />
+              <Column header="Industry" body={industryTemplate} />
+              <Column field="status" header="Status" body={statusTemplate} />
+              <Column field="yearStablished" header="Year" />
+              <Column header="Location" body={locationTemplate} />
+              <Column field="revenue" header="Revenue" body={moneyTemplate} />
+              <Column
+                field="askingPrice"
+                header="Asking Price"
+                body={moneyTemplate}
+              />
+              <Column
+                field="cimStatus"
+                header="CIM Status"
+                body={cimTemplate}
+              />
+              <Column field="views" header="Views" />
+              <Column header="Last Edited" body={dateTemplate} />
+              <Column header="Action" body={actionTemplate} />
+            </DataTable>
+          </>
+        )}
       </div>
     </>
   );
