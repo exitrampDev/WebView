@@ -124,6 +124,23 @@ export default function SellerListing() {
         cashFlow: "",
         status: "draft",
         cimStatus: "not_ready",
+        ownershipStructure: "",
+        isOwnerInvolved: true,
+        ownershipBreakdown: "",
+        facilities: "",
+        numberOfEmployees: "",
+        warehouseStaff: "",
+        adminStaff: "",
+        generalManager: "",
+        warehouseSupervisor: "",
+        revenueModel: "",
+        ownerDetails: "",
+        workforceDescription: "",
+        keyClients: "",
+        businessDescription: "",
+        seasonality: "",
+        legalMatters: "",
+        growthNarrative: "",
         image: "",
       });
       fetchListings(); // refresh table
@@ -294,7 +311,19 @@ export default function SellerListing() {
                     placeholder="Business Type"
                   />
                 </div>
-
+                <div className="col-6">
+                  <label>Ownership Structure</label>
+                  <InputText
+                    value={newListing.ownershipStructure}
+                    onChange={(e) =>
+                      setNewListing((f) => ({
+                        ...f,
+                        ownershipStructure: e.target.value,
+                      }))
+                    }
+                    placeholder="Ownership Structure"
+                  />
+                </div>
                 {/* Entity Type */}
                 <div className="col-6">
                   <Dropdown

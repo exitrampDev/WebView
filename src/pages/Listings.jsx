@@ -12,20 +12,18 @@ const Listings = () => {
   return (
     <>
       <Header />
-      <div style={{ padding: "20px" }}>
-        <h2>All Listings</h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "20px",
-          }}
-        >
-          {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
+      <div className="AboutHero__main_wrapper">
+        <div className="AboutHero__container">
+          <h4>Explore Confidential Business Opportunities</h4>
+          <p>
+            Browse Our Curated Marketplace of Business Listings, Buyers, and M&A
+            Experts. Seller and Buyer Listings Contact Information is Kept
+            Confidential. You Can Message Listings Owners Directly.
+          </p>
         </div>
       </div>
+
+      <PropertyCard />
       <Footer />
     </>
   );
