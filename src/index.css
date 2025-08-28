@@ -1866,6 +1866,7 @@ li.list__row_item span.list_content_col p.location__item_list {
 li.list__row_item span.list_content_col p.list__item_industry {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 li.list__row_item span.list_content_col p.list__item_industry span {
@@ -1890,6 +1891,13 @@ li.list__row_item span.list_content_col p.list__item_industry span {
 
 .listing__pagination_btn button.p-button-secondary {
   margin: 0;
+}
+li.list__row_item
+  span.list_content_col
+  p.list__item_industry
+  span.more__remains {
+  border: none !important;
+  padding: 0 !important;
 }
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {

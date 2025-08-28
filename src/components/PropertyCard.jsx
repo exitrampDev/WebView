@@ -66,6 +66,8 @@ const PropertyCard = () => {
       filtered = filtered.filter(
         (item) => item.city?.toLowerCase() === filters.city.toLowerCase()
       );
+
+      console.log("filtered>>>>>>>", filtered);
     }
 
     filtered = filtered.filter(
@@ -87,6 +89,7 @@ const PropertyCard = () => {
     );
 
     setListings(filtered);
+
     setPage(1); // reset to first page when filters applied
   };
 
@@ -262,9 +265,17 @@ const PropertyCard = () => {
                     {listing.entityType}
                   </p>
                   <p className="list__item_industry">
-                    {listing.industry?.map((item, index) => (
-                      <span key={index}>{item}</span>
+                    {listing.industry?.slice(0, 3).map((item, index) => (
+                      <span key={index} style={{ marginRight: "6px" }}>
+                        {item}
+                      </span>
                     ))}
+
+                    {listing.industry?.length > 3 && (
+                      <span className="more__remains">
+                        +{listing.industry.length - 3} more
+                      </span>
+                    )}
                   </p>
                   <div className="list__content_prices">
                     <span>
