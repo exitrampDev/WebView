@@ -17,6 +17,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import DashboardContent from "./components/dashboard/dashboardContent";
 import AdminUsersShow from "./components/dashboard/AdminContent/AdminUserShow";
+import ProfileFormBuyer from "./components/dashboard/DasboardContentComponents/FreeBuyerProfileForm";
 
 const App = () => {
   return (
@@ -44,6 +45,10 @@ const App = () => {
           <Route path="saved-listing" element={<div>Saved Listing</div>} />
           <Route path="my-listing" element={<SellerListing />} />
           <Route path="recently-viewed" element={<>adds</>} />
+          <Route
+            path="complete-profile-buyer-free"
+            element={<ProfileFormBuyer />}
+          />
         </Route>
         <Route path="admin" element={<Dashboard />}>
           <Route path="users" element={<AdminUsersShow />} />

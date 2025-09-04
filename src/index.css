@@ -1899,6 +1899,61 @@ li.list__row_item
   border: none !important;
   padding: 0 !important;
 }
+.complete_buyer_form_wrap form.form_wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  column-gap: 30px;
+  row-gap: 15px;
+  align-items: flex-end;
+}
+
+.complete_buyer_form_wrap .field.form__field_col {
+  width: 100%;
+  max-width: 316px;
+}
+
+.complete_buyer_form_wrap .field.form__field_col label {
+  width: 100%;
+  display: block;
+  font-size: 14px;
+  color: #002f67;
+  margin-bottom: 5px;
+}
+
+.p-component {
+  width: 100%;
+}
+
+.field.plan_purchase_field {
+  width: 100%;
+  max-width: 400px;
+}
+
+.field.brief_bg_wrap {
+  width: 100%;
+}
+
+.brief__infor_content {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #818a98;
+}
+
+.submit__btn_block {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.submit__btn_block button.p-button.p-component {
+  width: 230px;
+}
+.field.form__field_col_verifications {
+  width: 100%;
+  max-width: 570px;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;
