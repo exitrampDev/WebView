@@ -1954,6 +1954,21 @@ li.list__row_item
   width: 100%;
   max-width: 570px;
 }
+.form__field_col_hardocded_email {
+  font-family: var(--font-family);
+  font-feature-settings: var(--font-feature-settings, normal);
+  font-size: 1rem;
+  color: #8c8c8c;
+  background: #dcdcdc;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #d1d5db;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s;
+  appearance: none;
+  border-radius: 6px;
+  outline-color: transparent;
+  cursor: no-drop;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { Toast } from "primereact/toast";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../../recoil/ctaState";
@@ -13,11 +14,12 @@ import userImg from "../../../assets/userImg.png";
 
 const FreeBuyerForm = () => {
   const { access_token } = useRecoilValue(authState) ?? {};
-
+  const user = useRecoilValue(authState).user;
+  const toast = useRef(null);
+  const [dirty, setDirty] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     phone: "",
     investmentBudget: "",
     industryOfInterest: "",
@@ -76,6 +78,7 @@ const FreeBuyerForm = () => {
       ...prev,
       [name]: value,
     }));
+    setDirty(true);
   };
 
   const handleSubmit = async (e) => {
@@ -91,7 +94,13 @@ const FreeBuyerForm = () => {
             headers: { Authorization: `Bearer ${access_token}` },
           }
         );
-        alert("Data updated successfully!");
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Data updated successfully!",
+          life: 3000,
+        });
+        setDirty(false);
       } else {
         // POST create
         const res = await axios.post(
@@ -101,12 +110,23 @@ const FreeBuyerForm = () => {
             headers: { Authorization: `Bearer ${access_token}` },
           }
         );
-        setExistingId(res.data._id); // save new record id
-        alert("Data created successfully!");
+        setExistingId(res.data._id);
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Data created successfully!",
+          life: 3000,
+        });
+        setDirty(false);
       }
     } catch (err) {
       console.error("Error saving data", err);
-      alert("Error saving data");
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error saving data",
+        life: 3000,
+      });
     }
   };
 
@@ -114,6 +134,7 @@ const FreeBuyerForm = () => {
 
   return (
     <>
+      <Toast ref={toast} />
       <div className="dashboard__header_block">
         <h3 className="heading__Digital_CIM">Complete Your Buyer Profile</h3>
 
@@ -143,6 +164,11 @@ const FreeBuyerForm = () => {
       <div className="complete_buyer_form_wrap">
         {" "}
         <form onSubmit={handleSubmit} className="form_wrap">
+          {/* Contact Info */}
+          <div className="field form__field_col">
+            <label>Email</label>
+            <div className="form__field_col_hardocded_email">{user?.email}</div>
+          </div>
           {/* Name */}
           <div className="field form__field_col">
             <label>First Name</label>
@@ -157,15 +183,6 @@ const FreeBuyerForm = () => {
             <InputText
               value={formData.lastName || ""}
               onChange={(e) => handleChange("lastName", e.target.value)}
-            />
-          </div>
-
-          {/* Contact Info */}
-          <div className="field form__field_col">
-            <label>Email</label>
-            <InputText
-              value={formData.email || ""}
-              onChange={(e) => handleChange("email", e.target.value)}
             />
           </div>
 
@@ -269,8 +286,7 @@ const FreeBuyerForm = () => {
 
           <div className="field form__field_col_verifications">
             <label>
-              Do you Have a Verification of Financial Qualification? For
-              Example, a Lender Commit Letter
+              Do you Have a Verification of Financial Qualification?
             </label>
             <InputText
               value={formData.verificationOfFinancialQualification || ""}
@@ -309,7 +325,7 @@ const FreeBuyerForm = () => {
 
             {/* Submit Button */}
             <div className="col-12 flex justify-content-end mt-3">
-              <Button label="Save Profile" type="submit" />
+              <Button label="Save Profile" type="submit" disabled={!dirty} />
             </div>
           </div>
         </form>
