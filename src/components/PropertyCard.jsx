@@ -5,16 +5,17 @@ import { Button } from "primereact/button";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { Dropdown } from "primereact/dropdown";
+import { useRecoilValue } from "recoil";
+import { authState } from "../recoil/ctaState";
+import { Column } from "primereact/column";
 
 const PropertyCard = () => {
-  const [allListings, setAllListings] = useState([]); // raw data from API
-  const [listings, setListings] = useState([]); // filtered data
+  const { access_token } = useRecoilValue(authState) ?? {};
+  const [allListings, setAllListings] = useState([]);
+  const [listings, setListings] = useState([]);
 
-  // Pagination state
   const [page, setPage] = useState(1);
-  const limit = 25; // items per page
-
-  // Filters state
+  const limit = 25;
   const [filters, setFilters] = useState({
     type: "",
     industry: "",
@@ -28,6 +29,7 @@ const PropertyCard = () => {
 
   // Fetch Data
   useEffect(() => {
+    console.log("access_token", access_token);
     fetch("http://localhost:3000/business-listing/public")
       .then((res) => res.json())
       .then((result) => {
@@ -38,6 +40,29 @@ const PropertyCard = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  const saveListingBtn = () => {
+    if (access_token) {
+      return (
+        <Button
+          icon="pi pi-heart-fill"
+          className="button__save_listing_global"
+        />
+      );
+    }
+    const handleNonUserClick = () => {
+      const signupBtn = document.querySelector(".signup-btn");
+      if (signupBtn) {
+        signupBtn.click(); // trigger signup button click
+      }
+    };
+    return (
+      <Button
+        icon="pi pi-heart"
+        className="button__save_listing_non_user"
+        onClick={handleNonUserClick}
+      />
+    );
+  };
   // Apply Filters
   const applyFilters = () => {
     let filtered = [...allListings];
@@ -289,6 +314,7 @@ const PropertyCard = () => {
                     </span>
                   </div>
                 </span>
+                <div className="list__actions">{saveListingBtn()}</div>
               </li>
             ))
           )}

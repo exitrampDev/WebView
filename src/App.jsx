@@ -18,6 +18,7 @@ import "primeicons/primeicons.css";
 import DashboardContent from "./components/dashboard/dashboardContent";
 import AdminUsersShow from "./components/dashboard/AdminContent/AdminUserShow";
 import ProfileFormBuyer from "./components/dashboard/DasboardContentComponents/FreeBuyerProfileForm";
+import MySaveListing from "./components/dashboard/DasboardContentComponents/MySaveListing";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
             path="complete-profile-buyer-free"
             element={<ProfileFormBuyer />}
           />
+          <Route path="my-save-listing" element={<MySaveListing />} />
         </Route>
         <Route path="admin" element={<Dashboard />}>
           <Route path="users" element={<AdminUsersShow />} />

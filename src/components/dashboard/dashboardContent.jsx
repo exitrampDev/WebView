@@ -4,6 +4,7 @@ import notifInfo from "../../assets/notifInfo.png";
 import serachIcon from "../../assets/serachIcon.png";
 import userImg from "../../assets/userImg.png";
 import { Routes, Route } from "react-router-dom";
+import FreeBuyerDashboard from "./DasboardContentComponents/FreeBuyerComponent";
 
 const DashboardContent = () => {
   const user = useRecoilValue(authState).user;
@@ -30,15 +31,8 @@ const DashboardContent = () => {
           </div>
         </div>
       </div>
-      <div className="">
-        <h4>
-          👋 Welcome, {user.first_name} {user.last_name}
-        </h4>
-        <p>
-          Let’s get your first business listing published and connect with
-          qualified buyers.
-        </p>
-      </div>
+
+      {user?.user_type === "buyer" ? <FreeBuyerDashboard /> : " "}
     </>
   );
 };

@@ -18,7 +18,7 @@ export default function BuyerFreeNav() {
         </li>
         <li>
           <NavLink
-            to="/user/saved-listing"
+            to="/user/my-save-listing"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <img src={icon2} alt="Saved Listing" /> Saved Listing
