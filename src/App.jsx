@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Listings from "./pages/Listings";
 import Register from "./components/register";
 import Login from "./components/login";
+import BusinessListingDetail from "./components/BusinessListingDetail";
 import AboutUS from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import TermsCondition from "./pages/TermsCondition";
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/listing/:id" element={<BusinessListingDetail />} />
         {/* dashboard pages */}
         {/* <Route path="user/dashboard" element={<Dashboard />} />
         <Route path="user/saved-listing" element={<Dashboard />} />

@@ -8,6 +8,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useRecoilValue } from "recoil";
 import { authState } from "../recoil/ctaState";
 import { Column } from "primereact/column";
+import { Link } from "react-router-dom";
 
 const PropertyCard = () => {
   const { access_token } = useRecoilValue(authState) ?? {};
@@ -29,7 +30,6 @@ const PropertyCard = () => {
 
   // Fetch Data
   useEffect(() => {
-    console.log("access_token", access_token);
     fetch("http://localhost:3000/business-listing/public")
       .then((res) => res.json())
       .then((result) => {
@@ -267,53 +267,56 @@ const PropertyCard = () => {
           ) : (
             currentPageData.map((listing) => (
               <li key={listing._id} className="list__row_item">
-                <span className="list__image_col">
-                  <img
-                    alt={listing.businessName}
-                    src={listing.image}
-                    style={{
-                      width: "100%",
-                      height: "180px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </span>
-                <span className="list_content_col">
-                  <h4>{listing.businessName}</h4>
-                  <p className="location__item_list">
-                    {listing.city}, {listing.state}
-                  </p>
+                <Link to={`/listing/${listing._id}`} className="flex gap-4">
+                  <span className="list__image_col">
+                    <img
+                      alt={listing.businessName}
+                      src={listing.image}
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </span>
+                  <span className="list_content_col">
+                    <h4>{listing.businessName}</h4>
+                    <p className="location__item_list">
+                      {listing.city}, {listing.state}
+                    </p>
 
-                  <p>
-                    <b>Type:</b> {listing.businessType} | <b>Entity:</b>{" "}
-                    {listing.entityType}
-                  </p>
-                  <p className="list__item_industry">
-                    {listing.industry?.slice(0, 3).map((item, index) => (
-                      <span key={index} style={{ marginRight: "6px" }}>
-                        {item}
-                      </span>
-                    ))}
+                    <p>
+                      <b>Type:</b> {listing.businessType} | <b>Entity:</b>{" "}
+                      {listing.entityType}
+                    </p>
+                    <p className="list__item_industry">
+                      {listing.industry?.slice(0, 3).map((item, index) => (
+                        <span key={index} style={{ marginRight: "6px" }}>
+                          {item}
+                        </span>
+                      ))}
 
-                    {listing.industry?.length > 3 && (
-                      <span className="more__remains">
-                        +{listing.industry.length - 3} more
+                      {listing.industry?.length > 3 && (
+                        <span className="more__remains">
+                          +{listing.industry.length - 3} more
+                        </span>
+                      )}
+                    </p>
+                    <div className="list__content_prices">
+                      <span>
+                        <b>Asking Price</b>: ${listing.askingPrice}
                       </span>
-                    )}
-                  </p>
-                  <div className="list__content_prices">
-                    <span>
-                      <b>Asking Price</b>: ${listing.askingPrice}
-                    </span>
-                    <span>
-                      <b>Revenue</b>: ${listing.revenue}
-                    </span>
-                    <span>
-                      <b>Cash Flow</b>: ${listing.cashFlow}
-                    </span>
-                  </div>
-                </span>
+                      <span>
+                        <b>Revenue</b>: ${listing.revenue}
+                      </span>
+                      <span>
+                        <b>Cash Flow</b>: ${listing.cashFlow}
+                      </span>
+                    </div>
+                  </span>
+                </Link>
+
                 <div className="list__actions">{saveListingBtn()}</div>
               </li>
             ))

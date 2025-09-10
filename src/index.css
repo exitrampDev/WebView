@@ -2240,6 +2240,11 @@ button.button__save_listing_non_user .pi-heart:before {
   width: calc(50% - 15px);
   align-items: center;
 }
+.main__listing_grid ul.list__ul_container li.list__row_item a.flex.gap-4 {
+  text-decoration: none;
+  display: contents;
+  color: inherit;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;
