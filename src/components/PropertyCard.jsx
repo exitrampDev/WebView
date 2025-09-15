@@ -40,29 +40,57 @@ const PropertyCard = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const saveListingBtn = () => {
-    if (access_token) {
-      return (
-        <Button
-          icon="pi pi-heart-fill"
-          className="button__save_listing_global"
-        />
-      );
-    }
-    const handleNonUserClick = () => {
-      const signupBtn = document.querySelector(".signup-btn");
-      if (signupBtn) {
-        signupBtn.click(); // trigger signup button click
+const saveListingBtn = (businessId) => {
+  if (access_token) {
+    const handleSave = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/favorite", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessId }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Favorite saved:", data);
+
+        // optional: update local state to reflect saved
+        // setSavedIds((prev) => [...prev, businessId]);
+
+      } catch (error) {
+        console.error("Error saving favorite:", error);
       }
     };
+
     return (
       <Button
-        icon="pi pi-heart"
-        className="button__save_listing_non_user"
-        onClick={handleNonUserClick}
+        icon="pi pi-heart-fill"
+        className="button__save_listing_global"
+        onClick={handleSave}
       />
     );
+  }
+
+  const handleNonUserClick = () => {
+    const signupBtn = document.querySelector(".signup-btn");
+    if (signupBtn) signupBtn.click();
   };
+
+  return (
+    <Button
+      icon="pi pi-heart"
+      className="button__save_listing_non_user"
+      onClick={handleNonUserClick}
+    />
+  );
+};
+
   // Apply Filters
   const applyFilters = () => {
     let filtered = [...allListings];
@@ -317,7 +345,7 @@ const PropertyCard = () => {
                   </span>
                 </Link>
 
-                <div className="list__actions">{saveListingBtn()}</div>
+                <div className="list__actions">{saveListingBtn(listing._id)}</div>
               </li>
             ))
           )}

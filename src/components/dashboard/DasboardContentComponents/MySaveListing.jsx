@@ -1,32 +1,106 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Tag } from "primereact/tag";
-import { ProgressSpinner } from "primereact/progressspinner";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { Slider } from "primereact/slider";
 import { Button } from "primereact/button";
-import notifInfo from "../../../assets/notifInfo.png";
+import { Tooltip } from "primereact/tooltip";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../../recoil/ctaState";
 import serachIcon from "../../../assets/serachIcon.png";
+import notifInfo from "../../../assets/notifInfo.png";
 import userImg from "../../../assets/userImg.png";
 
-const MySaveListing = () => {
+
+const FavoriteListings = () => {
+  const { user, access_token } = useRecoilValue(authState) ?? {};
   const [listings, setListings] = useState([]);
+  const [filteredListings, setFilteredListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Filters state
+  const [listingType, setListingType] = useState(null); // Seller / M&A
+  const [keyword, setKeyword] = useState("");
+  const [industry, setIndustry] = useState(null);
+  const [ndaStatus, setNdaStatus] = useState(null);
+  const [priceRange, setPriceRange] = useState([0, 100000000000000000000000000000]);
+  const [cashFlowRange, setCashFlowRange] = useState([0, 50000000000000000000000000]);
+
+  // Fetch Favorites
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/business-listing/public")
-      .then((res) => {
-        setListings(res.data?.data || []);
+    const fetchFavorites = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/favorite", {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) throw new Error("Failed to fetch favorites");
+        const result = await response.json();
+        if (result && Array.isArray(result.data)) {
+          const mapped = result.data.map((fav) => ({
+            ...fav.businessId,
+            _favId: fav._id,
+          }));
+          setListings(mapped);
+          setFilteredListings(mapped);
+        } else {
+          setListings([]);
+          setFilteredListings([]);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching listings:", err);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+    if (access_token) fetchFavorites();
+  }, [access_token]);
 
-  // Image + name template
+  // Remove favorite
+  const removeFavorite = async (favId) => {
+    try {
+      const res = await fetch(`http://localhost:3000/favorite/${favId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) throw new Error("Failed to remove favorite");
+      setListings((prev) => prev.filter((item) => item._favId !== favId));
+      setFilteredListings((prev) => prev.filter((item) => item._favId !== favId));
+    } catch (err) {
+      console.error("Error removing favorite:", err);
+    }
+  };
+
+  // Filter logic
+  useEffect(() => {
+    let filtered = [...listings];
+
+    if (listingType) filtered = filtered.filter(l => l.listingType === listingType);
+    if (keyword)
+      filtered = filtered.filter(l =>
+        l.businessName?.toLowerCase().includes(keyword.toLowerCase()) ||
+        l.businessType?.toLowerCase().includes(keyword.toLowerCase())
+      );
+    if (industry) filtered = filtered.filter(l => l.businessType === industry);
+    if (ndaStatus) filtered = filtered.filter(l => l.ndaStatus === ndaStatus);
+    filtered = filtered.filter(
+      l => (l.askingPrice || 0) >= priceRange[0] && (l.askingPrice || 0) <= priceRange[1]
+    );
+    filtered = filtered.filter(
+      l => (l.cashFlow || 0) >= cashFlowRange[0] && (l.cashFlow || 0) <= cashFlowRange[1]
+    );
+
+    setFilteredListings(filtered);
+  }, [listingType, keyword, industry, ndaStatus, priceRange, cashFlowRange, listings]);
+
+  // Templates
   const listingNameTemplate = (rowData) => (
     <div className="flex items-center gap-2 img_my_save_lisiting">
       <img
@@ -38,95 +112,116 @@ const MySaveListing = () => {
     </div>
   );
 
-  // NDA Status template
-  const ndaStatusTemplate = (rowData) => {
-    const status = rowData.ndaStatus || "Not Started";
-    const severity =
-      status === "Submitted"
-        ? "success"
-        : status === "Approved"
-        ? "info"
-        : "danger";
-    return <Tag value={status} severity={severity} />;
-  };
+  const moneyTemplate = (value) => (value ? `$${Number(value).toLocaleString()}` : "—");
 
-  // Revenue + Asking Price template
-  const moneyTemplate = (value) =>
-    value ? `$${Number(value).toLocaleString()}` : "$0";
-
-  // CIM Access lock
-  const cimTemplate = () => (
-    <i className="pi pi-lock" style={{ color: "#f59e0b" }} />
+  const actionTemplate = (rowData) => (
+    <>
+      <Button
+        icon="pi pi-heart-fill"
+        className="button__remove_listing_fav"
+        onClick={() => removeFavorite(rowData._favId)}
+        data-pr-tooltip="Remove"
+      />
+      <Tooltip target=".button__remove_listing_fav" position="top" />
+    </>
   );
-  const industryTemplate = (rowData) => {
-    if (Array.isArray(rowData.industry)) {
-      return rowData.industry.join(", ");
-    }
-    return rowData.industry || "-";
-  };
-  // Action heart
-  const actionTemplate = () => (
-    <Button icon="pi pi-heart-fill" className="button__save_listing" />
-  );
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-40">
-        <ProgressSpinner />
-      </div>
-    );
-  }
-
+ const cimTemplate = () => <button className="cim-btn">View CIM</button>;
+   const ndaStatusTemplate = () => <><div className="class__nda_not_started">Not Started</div></>;
   return (
     <>
-      <div className="dashboard__header_block">
-        <h3 className="heading__Digital_CIM">Saved Listings</h3>
 
-        <div className="dashboard__header_search_notification_wrap">
-          <div className="dashboard__search_field_wrap">
-            <input type="text" placeholder="Search" />
-            <img src={serachIcon} alt="search" />
+
+    <div className="dashboard__header_block">
+            <h3 className="heading__Digital_CIM">Saved Listing</h3>
+    
+            <div className="dashboard__header_search_notification_wrap">
+              <div className="dashboard__search_field_wrap">
+                <input type="text" placeholder="Search" />
+                <img src={serachIcon} alt="search" />
+              </div>
+              <div className="dashboard__notification_wrap">
+                <button>
+                  <img src={notifInfo} alt="notifications" />
+                </button>
+              </div>
+              <div className="dashboard__user_wrap">
+                <button>
+                  <img src={userImg} alt="user" />
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="dashboard__notification_wrap">
-            <button>
-              <img src={notifInfo} alt="notifications" />
-            </button>
-          </div>
-          <div className="dashboard__user_wrap">
-            <button>
-              <img src={userImg} alt="user" />
-            </button>
-          </div>
+       {/* Filters */}
+      <div className="flex gap-4 mb-4">
+        <Dropdown
+          value={listingType}
+          options={["Seller Listing", "M&A Listing"]}
+          placeholder="Listing Type"
+          onChange={(e) => setListingType(e.value)}
+        />
+        <InputText
+          placeholder="Search by keyword"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <Dropdown
+          value={industry}
+          options={[...new Set(listings.map((l) => l.businessType))]}
+          placeholder="Industry"
+          onChange={(e) => setIndustry(e.value)}
+        />
+        <Dropdown
+          value={ndaStatus}
+          options={["Pending", "Signed"]}
+          placeholder="NDA Status"
+          onChange={(e) => setNdaStatus(e.value)}
+        />
+        <div>
+          <span>Asking Price:</span>
+          <Slider
+            value={priceRange}
+            onChange={(e) => setPriceRange(e.value)}
+            range
+            min={0}
+            max={1000000}
+          />
+        </div>
+        <div>
+          <span>Cash Flow:</span>
+          <Slider
+            value={cashFlowRange}
+            onChange={(e) => setCashFlowRange(e.value)}
+            range
+            min={0}
+            max={500000}
+          />
         </div>
       </div>
-      <div className="my__save_listing_wrap">
-        <DataTable
-          value={listings}
-          paginator
-          rows={10}
-          responsiveLayout="scroll"
-          emptyMessage="No business listings found."
-        >
-          <Column header="Listing Name" body={listingNameTemplate} />
-          <Column header="Industry" body={industryTemplate} />
-          <Column header="NDA Status" body={ndaStatusTemplate} />
-          <Column field="type" header="Type" />
-          <Column
-            field="revenue"
-            header="Revenue"
-            body={(rowData) => moneyTemplate(rowData.revenue)}
-          />
-          <Column
-            field="askingPrice"
-            header="Asking Price"
-            body={(rowData) => moneyTemplate(rowData.askingPrice)}
-          />
-          <Column header="CIM Access" body={cimTemplate} />
-          <Column header="Action" body={actionTemplate} />
-        </DataTable>
-      </div>
+          <div className="my__save_listing_wrap">
+           <DataTable
+        value={filteredListings}
+        paginator
+        rows={10}
+        loading={loading}
+        responsiveLayout="scroll"
+        emptyMessage={error ? `Error: ${error}` : "No business listings found."}
+      >
+        <Column header="Listing Name" body={listingNameTemplate} />
+        <Column header="Industry" field="businessType" />
+        <Column header="NDA Status" body={ndaStatusTemplate} />
+        <Column field="entityType" header="Type" />
+        <Column field="revenue" header="Revenue" body={(row) => moneyTemplate(row.revenue)} />
+        <Column field="askingPrice" header="Asking Price" body={(row) => moneyTemplate(row.askingPrice)} />
+        <Column header="CIM Access" body={cimTemplate} />
+        <Column header="Action" body={actionTemplate} />
+      </DataTable>
+          </div>
+   
+
+      {/* Data Table */}
+      
     </>
   );
 };
 
-export default MySaveListing;
+export default FavoriteListings;

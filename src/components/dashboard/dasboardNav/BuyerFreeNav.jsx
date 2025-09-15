@@ -34,7 +34,7 @@ export default function BuyerFreeNav() {
         </li>
         <li>
           <NavLink
-            to="/user/recently-viewed"
+            to="/user/recent-view-listing"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <img src={icon3} alt="Recently Viewed" /> Recently Viewed

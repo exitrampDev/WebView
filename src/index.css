@@ -2038,6 +2038,19 @@ button.button__save_listing_non_user {
 button.button__save_listing_non_user .pi-heart:before {
   font-size: 20px;
 }
+
+button.button__remove_listing_fav {
+  width: fit-content;
+  background: transparent !important;
+  padding: 0;
+  color: #ff5353;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+button.button__remove_listing_fav .pi-heart-fill:before {
+  font-size: 20px;
+}
 .main__listing_grid
   ul.list__ul_container
   .button__save_listing_global

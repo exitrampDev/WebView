@@ -20,6 +20,7 @@ import DashboardContent from "./components/dashboard/dashboardContent";
 import AdminUsersShow from "./components/dashboard/AdminContent/AdminUserShow";
 import ProfileFormBuyer from "./components/dashboard/DasboardContentComponents/FreeBuyerProfileForm";
 import MySaveListing from "./components/dashboard/DasboardContentComponents/MySaveListing";
+import RecentViewListing from "./components/dashboard/DasboardContentComponents/RecentViewListing";
 
 const App = () => {
   return (
@@ -52,6 +53,11 @@ const App = () => {
             path="complete-profile-buyer-free"
             element={<ProfileFormBuyer />}
           />
+          <Route
+            path="recent-view-listing"
+            element={<RecentViewListing />}
+          />
+          
           <Route path="my-save-listing" element={<MySaveListing />} />
         </Route>
         <Route path="admin" element={<Dashboard />}>
