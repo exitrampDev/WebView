@@ -5,20 +5,52 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { authState } from "../recoil/ctaState";
 
 export default function BusinessListingDetail() {
+  const { user, access_token } = useRecoilValue(authState) ?? {};
   const { id } = useParams();
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/business-listing/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+  
+        // Save favorite
+        const response = await fetch("http://localhost:3000/recently", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessId: id }), // ✅ correct payload
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const favData = await response.json();
+        console.log("Favorite saved:", favData);
+      } catch (error) {
+        console.error("Error saving favorite:", error);
+      }
+
+      try {
+        // Fetch business detail
+        const res = await fetch(`http://localhost:3000/business-listing/${id}`);
+        const data = await res.json();
         setBusiness(data);
+      } catch (err) {
+        console.error("Error fetching business:", err);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   if (loading) return <ProgressSpinner />;

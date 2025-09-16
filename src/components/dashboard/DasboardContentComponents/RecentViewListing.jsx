@@ -18,7 +18,7 @@ const RecentViewListing = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await fetch("http://localhost:3000/favorite", {
+        const response = await fetch("http://localhost:3000/recently", {
           headers: {
             Authorization: `Bearer ${access_token}`,
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const RecentViewListing = () => {
   }, [access_token]);
   const removeFavorite = async (favId) => {
     try {
-      const res = await fetch(`http://localhost:3000/favorite/${favId}`, {
+      const res = await fetch(`http://localhost:3000/recently/${favId}`, {
         method: "DELETE", // as per your API requirement
         headers: {
           Authorization: `Bearer ${access_token}`,
