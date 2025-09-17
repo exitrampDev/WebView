@@ -2098,10 +2098,20 @@ button.button__remove_listing_fav .pi-heart-fill:before {
   box-shadow: 0 2px 3px 0px #00000021;
 }
 
-.dashboard__free_buyer_complete_profile .p-d-flex.p-jc-between.p-ai-center {
+/* .dashboard__free_buyer_complete_profile .p-d-flex.p-jc-between.p-ai-center {
   max-width: 530px;
+} */
+.listing__dashboard_weakly_activity
+.listing__dashboard_nda_request_data_tables.width__full {
+    width: 100%;
 }
-
+.field.plan_purchase_field label,.field.form__field_col_verifications label,.field.brief_bg_wrap,.field.brief_bg_wrap label {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    color: #002f67;
+    margin-bottom: 5px;
+}
 .dashboard__free_buyer_complete_profile
   button.p-button-primary.p-button.p-component {
   margin: 0;

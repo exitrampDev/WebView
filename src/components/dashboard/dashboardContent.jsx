@@ -5,6 +5,7 @@ import serachIcon from "../../assets/serachIcon.png";
 import userImg from "../../assets/userImg.png";
 import { Routes, Route } from "react-router-dom";
 import FreeBuyerDashboard from "./DasboardContentComponents/FreeBuyerComponent";
+import FreeSellerDashboard from "./DasboardContentComponents/FreeSellerDashboard";
 
 const DashboardContent = () => {
   const user = useRecoilValue(authState).user;
@@ -33,6 +34,7 @@ const DashboardContent = () => {
       </div>
 
       {user?.user_type === "buyer" ? <FreeBuyerDashboard /> : " "}
+      {user?.user_type === "seller" ? <FreeSellerDashboard /> : " "}
     </>
   );
 };

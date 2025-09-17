@@ -11,6 +11,7 @@ import { authState } from "../../../recoil/ctaState";
 import serachIcon from "../../../assets/serachIcon.png";
 import notifInfo from "../../../assets/notifInfo.png";
 import userImg from "../../../assets/userImg.png";
+import { Link } from "react-router-dom";
 
 
 const FavoriteListings = () => {
@@ -24,6 +25,7 @@ const FavoriteListings = () => {
   const [listingType, setListingType] = useState(null); // Seller / M&A
   const [keyword, setKeyword] = useState("");
   const [industry, setIndustry] = useState(null);
+  const [region, setRegion] = useState(null);
   const [ndaStatus, setNdaStatus] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 100000000000000000000000000000]);
   const [cashFlowRange, setCashFlowRange] = useState([0, 50000000000000000000000000]);
@@ -89,6 +91,7 @@ const FavoriteListings = () => {
         l.businessType?.toLowerCase().includes(keyword.toLowerCase())
       );
     if (industry) filtered = filtered.filter(l => l.businessType === industry);
+    if (region) filtered = filtered.filter(l => l.state === region);
     if (ndaStatus) filtered = filtered.filter(l => l.ndaStatus === ndaStatus);
     filtered = filtered.filter(
       l => (l.askingPrice || 0) >= priceRange[0] && (l.askingPrice || 0) <= priceRange[1]
@@ -111,7 +114,6 @@ const FavoriteListings = () => {
       <span>{rowData.businessName}</span>
     </div>
   );
-
   const moneyTemplate = (value) => (value ? `$${Number(value).toLocaleString()}` : "—");
 
   const actionTemplate = (rowData) => (
@@ -151,7 +153,8 @@ const FavoriteListings = () => {
               </div>
             </div>
           </div>
-       {/* Filters */}
+      {user?.user_type === "buyer"  && ( 
+        <>
       <div className="flex gap-4 mb-4">
         <Dropdown
           value={listingType}
@@ -172,7 +175,7 @@ const FavoriteListings = () => {
         />
         <Dropdown
           value={ndaStatus}
-          options={["Pending", "Signed"]}
+          options={["Approved", "Submitted","Not Started"]}
           placeholder="NDA Status"
           onChange={(e) => setNdaStatus(e.value)}
         />
@@ -216,7 +219,79 @@ const FavoriteListings = () => {
         <Column header="Action" body={actionTemplate} />
       </DataTable>
           </div>
-   
+   </>
+      )}
+
+
+
+
+
+      {user?.user_type === "seller"  && ( 
+        <>
+      <div className="flex gap-4 mb-4">
+        <InputText
+          placeholder="Search by keyword"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <Dropdown
+          value={listingType}
+          options={["Seller Listing", "M&A Listing"]}
+          placeholder="Type"
+          onChange={(e) => setListingType(e.value)}
+        />
+        <Dropdown
+          value={industry}
+          options={[...new Set(listings.map((l) => l.businessType))]}
+          placeholder="Industry"
+          onChange={(e) => setIndustry(e.value)}
+        />
+        <Dropdown
+          value={region}
+          options={[...new Set(listings.map((l) => l.state))]}
+          placeholder="Region"
+          onChange={(e) => setRegion(e.value)}
+        />
+        <Dropdown
+          value={ndaStatus}
+          options={["Approved", "Submitted","Not Started"]}
+          placeholder="NDA Status"
+          onChange={(e) => setNdaStatus(e.value)}
+        />
+      </div>
+          <div className="my__save_listing_wrap">
+           <DataTable
+        value={filteredListings}
+        paginator
+        rows={10}
+        loading={loading}
+        responsiveLayout="scroll"
+        emptyMessage={error ? `Error: ${error}` : "No business listings found."}
+      >
+        <Column header="Listing Name" field="businessName" />
+        <Column field="entityType" header="Type" />
+        <Column header="Region" field="state" />
+        <Column header="Industry" field="businessType" />
+        <Column header="NDA Status" body={ndaStatusTemplate} />
+       <Column
+          header="Saved On"
+          body={(row) => {
+            const date = new Date(row.createdAt);
+            return date.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            });
+          }}
+        />
+
+        <Column field="revenue" header="Revenue" body={(row) => moneyTemplate(row.revenue)} />
+        <Column field="askingPrice" header="Asking Price" body={(row) => moneyTemplate(row.askingPrice)} />
+        <Column header="Action" body={(row)=> (<><Link to={`user/listing/${row._id}`} className="flex gap-4">View Listing</Link></>)} />
+      </DataTable>
+          </div>
+   </>
+      )}
 
       {/* Data Table */}
       
