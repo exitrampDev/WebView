@@ -109,7 +109,7 @@ const FavoriteListings = () => {
       <img
         src={rowData.image || "https://via.placeholder.com/40"}
         alt={rowData.businessName}
-        className="w-10 h-10 rounded"
+        className=" rounded"
       />
       <span>{rowData.businessName}</span>
     </div>

@@ -1938,8 +1938,53 @@ li.list__row_item
   width: 230px;
 }
 .field.form__field_col_verifications {
-  width: 100%;
-  max-width: 570px;
+  width: calc(70% - 30px);
+}
+.my__save_listing_wrap.my__listing_table td {
+    min-width: max-content;
+}
+.action__listing_btns {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.my__save_listing_wrap.my__listing_table td img {
+    width: 40px;
+    height: 40px;
+}
+.my__listing_render_table_filters {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.my__listing_render_table_filters button.btn__crt_listing {
+    margin: 0;
+}
+
+.my__listing_render_table_filters span.p-input-icon-left {
+    position: relative;
+}
+
+.my__listing_render_table_filters span.p-input-icon-left i.pi.pi-search {
+    position: absolute;
+    right: 14px;
+    color: #7d7d7d;
+}
+
+.my__listing_render_table_filters button.p-datepicker-trigger.p-button.p-component.p-button-icon-only {
+    padding: 0 10px;
+}
+.action__listing_btns i {
+    font-size: 11px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 5px;
+    color: #6380a4;
+    cursor: pointer;
+}
+.my__save_listing_wrap.my__listing_table table.p-datatable-table {
+    width: 100vw;
 }
 .form__field_col_hardocded_email {
   font-family: var(--font-family);

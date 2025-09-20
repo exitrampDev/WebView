@@ -171,20 +171,25 @@ export default function SellerListing() {
     <Tag
       value={row.status}
       severity={
-        row.status === "published"
+        row.status === "live"
           ? "success"
-          : row.status === "draft"
-          ? "warning"
-          : "danger"
+          : row.status === "inactive"
+          ? "danger"
+          : "primary"
       }
     />
   );
 
-  const cimTemplate = (row) => (
+  const cimTemplate = (row) => {
+  const formattedStatus = row.cimStatus
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  return (
     <Tag
-      value={row.cimStatus}
+      value={formattedStatus}
       severity={
-        row.cimStatus === "ready"
+        row.cimStatus === "ready_to_share"
           ? "success"
           : row.cimStatus === "in_progress"
           ? "warning"
@@ -192,6 +197,8 @@ export default function SellerListing() {
       }
     />
   );
+};
+
 
   const locationTemplate = (row) =>
     row.city && row.state ? `${row.city}, ${row.state}` : "-";
@@ -221,7 +228,7 @@ export default function SellerListing() {
   };
 
   const actionTemplate = (row) => (
-    <div className="flex gap-3 text-lg">
+    <div className="action__listing_btns">
       <i
         className="pi pi-eye cursor-pointer text-blue-500 hover:text-blue-700"
         onClick={() => console.log("View", row._id)}
@@ -579,7 +586,7 @@ export default function SellerListing() {
               </p>
             </div>
             {/* Top Filters + Create Button */}
-            <div className="filters flex flex-wrap gap-3 mb-4">
+            <div className="my__listing_render_table_filters">
               <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText
@@ -649,11 +656,13 @@ export default function SellerListing() {
               <Button
                 label="Create Listing"
                 icon="pi pi-plus"
+                className="btn__crt_listing"
                 onClick={() => setShowCreateDialog((prev) => !prev)}
               />
             </div>
             {/* Data Table */}
-            <DataTable
+            <div className="my__save_listing_wrap my__listing_table">
+          <DataTable
               value={listings}
               paginator
               rows={10}
@@ -681,6 +690,8 @@ export default function SellerListing() {
               <Column header="Last Edited" body={dateTemplate} />
               <Column header="Action" body={actionTemplate} />
             </DataTable>
+            </div>
+            
           </>
         )}
       </div>
