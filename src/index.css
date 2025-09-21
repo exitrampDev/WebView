@@ -2313,6 +2313,85 @@ button.button__remove_listing_fav .pi-heart-fill:before {
   display: contents;
   color: inherit;
 }
+.complete_buyer_form_wrap.seller__form_profile  .field.form__field_col {
+    max-width: 440px;
+}
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.col_overvice_textarea {
+    max-width: 100%;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .p-fileupload-buttonbar {
+    padding: 0;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .p-fileupload-content {
+    padding: 0;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile span.p-button.p-fileupload-choose.p-component {
+    margin: 0;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .field__image_uploader_profile_block {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 15px;
+    background: #fff;
+    padding: 7px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    justify-content: space-between;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .field__image_uploader_profile_block img {
+    margin-top: 0 !important;
+    width: 65px;
+    border-radius: 5px;
+}
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .field__image_uploader_profile_block .preview {
+    display: inline-flex;
+}
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .field__image_uploader_profile_block .p-fileupload.p-fileupload-advanced.p-component {
+    max-width: 250px;
+}
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field__image_uploader_profile .field__image_uploader_profile_block .p-fileupload.p-fileupload-advanced.p-component span.p-button.p-fileupload-choose.p-component {
+    padding: 10px 16px;
+    background: #fff;
+    border: 1px solid #4F93FF;
+    color: #4F93FF;
+}
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.team__summary_doc_wrap .team__summary_doc_wrap_field_block {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 15px;
+    background: #fff;
+    padding: 3px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    justify-content: space-between;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.team__summary_doc_wrap .team__summary_doc_wrap_field_block  .p-fileupload.p-fileupload-basic.p-component {
+    max-width: 250px;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.team__summary_doc_wrap .team__summary_doc_wrap_field_block  .p-fileupload.p-fileupload-basic.p-component span.p-button.p-component.p-fileupload-choose {
+    padding: 10px 16px;
+    background: #fff;
+    border: 1px solid #4F93FF;
+    color: #4F93FF;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.team__summary_doc_wrap .team__summary_doc_wrap_cont a {
+    font-size: 34px !important;
+}
+
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.team__summary_doc_wrap .team__summary_doc_wrap_cont a i.pi.pi-file {
+    font-size: 30px;
+    color: #4F93FF;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;

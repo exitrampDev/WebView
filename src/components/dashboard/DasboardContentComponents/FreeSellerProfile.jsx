@@ -152,7 +152,7 @@ const FreeSellerForm = () => {
         understand who you are and improves listing visibility.
       </div>
 
-      <div className="complete_buyer_form_wrap">
+      <div className="complete_buyer_form_wrap seller__form_profile">
         <form onSubmit={handleSubmit} className="form_wrap">
           {/* Email (read-only) */}
           <div className="field form__field_col">
@@ -249,15 +249,22 @@ const FreeSellerForm = () => {
           </div>
 
           {/* Image Uploader */}
-          <div className="field form__field_col">
+          <div className="field form__field_col field__image_uploader_profile">
             <label>Company Logo / Image</label>
-            <FileUpload
-              mode="basic"
-              accept="image/*"
-              maxFileSize={1000000}
-              customUpload
-              uploadHandler={(e) => handleFileUpload(e, "companyLogo")}
-            />
+            <div className="field__image_uploader_profile_block">
+               <FileUpload
+                accept="image/*"
+                maxFileSize={1000000}
+                customUpload
+                auto 
+                uploadHandler={(e) => {
+                  handleFileUpload(e, "companyLogo");
+                  e.options.clear();
+                }}
+                chooseLabel="Company Logo Upload"
+                chooseIcon="pi pi-image"
+              />
+
             {formData.companyLogo && (
               <div className="preview">
                 <img
@@ -267,35 +274,43 @@ const FreeSellerForm = () => {
                 />
               </div>
             )}
+            </div>
           </div>
+        {/* File Uploader */}
+        <div className="field form__field_col team__summary_doc_wrap">
+          <label>Team Summary Document</label>
+                <div className="team__summary_doc_wrap_field_block">
+                  <FileUpload
+                  mode="basic"
+                  accept=".pdf,.doc,.docx"
+                  maxFileSize={2000000}
+                  customUpload
+                  chooseLabel="File Upload"
+                  chooseIcon="pi pi-file"
+                  auto
+                  uploadHandler={(e) => {
+                    handleFileUpload(e, "teamSummaryDocument");
+                    e.options.clear(); // reset input so you can re-upload
+                  }}
+                />
 
-          {/* File Uploader */}
-          <div className="field form__field_col">
-            <label>Team Summary Document</label>
-            <FileUpload
-              mode="basic"
-              accept=".pdf,.doc,.docx"
-              maxFileSize={2000000}
-              customUpload
-              uploadHandler={(e) =>
-                handleFileUpload(e, "teamSummaryDocument")
-              }
-            />
-            {formData.teamSummaryDocument && (
-              <div style={{ marginTop: "10px" }}>
-                <a
-                  href={formData.teamSummaryDocument}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View Uploaded Document
-                </a>
+                {formData.teamSummaryDocument && (
+                  <div className="team__summary_doc_wrap_cont">
+                    <a
+                      href={formData.teamSummaryDocument}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <i className="pi pi-file" /> {/* 👈 File icon instead of text */}
+                    </a>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+        </div>
+
 
           {/* Textarea */}
-          <div className="field form__field_col">
+          <div className="field form__field_col col_overvice_textarea">
             <label>Company Overview</label>
             <InputTextarea
               rows={4}
