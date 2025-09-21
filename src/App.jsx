@@ -21,6 +21,7 @@ import AdminUsersShow from "./components/dashboard/AdminContent/AdminUserShow";
 import ProfileFormBuyer from "./components/dashboard/DasboardContentComponents/FreeBuyerProfileForm";
 import MySaveListing from "./components/dashboard/DasboardContentComponents/MySaveListing";
 import RecentViewListing from "./components/dashboard/DasboardContentComponents/RecentViewListing";
+import FreeSellerForm from "./components/dashboard/DasboardContentComponents/FreeSellerProfile";
 
 const App = () => {
   return (
@@ -52,6 +53,10 @@ const App = () => {
           <Route
             path="complete-profile-buyer-free"
             element={<ProfileFormBuyer />}
+          />
+          <Route
+            path="complete-profile-seller-free"
+            element={<FreeSellerForm />}
           />
           <Route
             path="recent-view-listing"

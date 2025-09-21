@@ -35,7 +35,7 @@ export default function SellerListingNav() {
            
            <li>
              <NavLink
-               to="/user/complete-profile-buyer-free"
+               to="/user/complete-profile-seller-free"
                className={({ isActive }) => (isActive ? "active" : "")}
              >
                <img src={icon2} alt="My Listing" /> Profile
