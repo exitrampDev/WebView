@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Toast } from "primereact/toast";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../../recoil/ctaState";
@@ -10,6 +11,7 @@ import { FileUpload } from "primereact/fileupload";
 import notifInfo from "../../../assets/notifInfo.png";
 import serachIcon from "../../../assets/serachIcon.png";
 import userImg from "../../../assets/userImg.png";
+import { Calendar } from "primereact/calendar";
 
 const FreeSellerForm = () => {
   const { access_token } = useRecoilValue(authState) ?? {};
@@ -123,7 +125,17 @@ const FreeSellerForm = () => {
   };
 
   if (loading) return <p>Loading...</p>;
+const openFile = (base64Data, fileName, mimeType) => {
+  const byteCharacters = atob(base64Data.split(",")[1]);
+  const byteNumbers = new Array(byteCharacters.length).fill().map((_, i) =>
+    byteCharacters.charCodeAt(i)
+  );
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: mimeType });
+  const blobUrl = URL.createObjectURL(blob);
 
+  window.open(blobUrl, "_blank"); // safe preview
+};
   return (
     <>
       <Toast ref={toast} />
@@ -240,13 +252,17 @@ const FreeSellerForm = () => {
             />
           </div>
 
-          <div className="field form__field_col">
-            <label>Years in Operation</label>
-            <InputText
-              value={formData.yearsInOperation || ""}
-              onChange={(e) => handleChange("yearsInOperation", e.target.value)}
-            />
-          </div>
+        <div className="field form__field_col field form__field_col_yearOperation_content">
+          <label>Years in Operation</label>
+          <Calendar
+            value={formData.yearsInOperation || null}
+            onChange={(e) => handleChange("yearsInOperation", e.value)}
+            dateFormat="yy" 
+            view="year"     
+            showIcon        
+            placeholder="Select Year"
+          />
+        </div>
 
           {/* Image Uploader */}
           <div className="field form__field_col field__image_uploader_profile">
@@ -296,13 +312,15 @@ const FreeSellerForm = () => {
 
                 {formData.teamSummaryDocument && (
                   <div className="team__summary_doc_wrap_cont">
-                    <a
-                      href={formData.teamSummaryDocument}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <i className="pi pi-file" /> {/* 👈 File icon instead of text */}
-                    </a>
+                     <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openFile(formData.teamSummaryDocument, "team-summary.pdf", "application/pdf");
+                    }}
+                  >
+                    <i className="pi pi-file" />
+                  </a>
                   </div>
                 )}
               </div>

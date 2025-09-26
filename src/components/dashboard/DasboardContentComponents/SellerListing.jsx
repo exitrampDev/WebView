@@ -16,6 +16,12 @@ import serachIcon from "../../../assets/serachIcon.png";
 import userImg from "../../../assets/userImg.png";
 import { MultiSelect } from "primereact/multiselect";
 import { FileUpload } from "primereact/fileupload";
+import { Tooltip } from "primereact/tooltip";
+import { RadioButton } from "primereact/radiobutton";
+import { InputTextarea } from "primereact/inputtextarea";
+import { InputNumber } from "primereact/inputnumber";
+import { Checkbox } from "primereact/checkbox";
+import { Chips } from "primereact/chips";
 
 export default function SellerListing() {
   const { user, access_token } = useRecoilValue(authState) ?? {};
@@ -53,20 +59,39 @@ export default function SellerListing() {
   // Create Listing Dialog
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [newListing, setNewListing] = useState({
+     briefDescription: "",
+    businessOverview: "",
+    keyHighlights: [],
     businessName: "",
     businessType: "",
     entityType: "",
-    yearStablished: "", // ✅ fixed spelling
+    yearStablished: "",
     city: "",
     state: "",
     country: "",
-    industry: [], // ✅ always array
-    revenue: "",
-    askingPrice: "",
-    cashFlow: "",
-    status: "draft",
+    ownershipStructure: "",
+    isOwnerInvolved: "",
+    ownerShipBreakdown: "",
+    facilitiesOffices: "",
+    numberOfEmployees: "",
+    warehouseStaff: "",
+    administrativeStaff: "",
+    generalManager: "",
+    warehouseSupervisor: "",
+    revenueModel: "",
+    ownerSemiInvolved: "",
+    workForceDescription: "",
+    keyClientsContacts: "",
+    whatDoseBusinessDo: "",
+    seasonalityOrTrends: "",
+    anyPendingLegalMatter: "",
+    growthOppertunityNarrative: "",
+    industry: [],
+    revenue: 0,
+    askingPrice: 0,
+    cashFlow: 0,
+    status: "inactive",
     cimStatus: "not_ready",
-    image: "",
   });
 
   // Fetch Listings
@@ -111,37 +136,39 @@ export default function SellerListing() {
 
       setShowCreateDialog(false);
       setNewListing({
-        businessName: "",
-        businessType: "",
-        entityType: "",
-        yearStablished: "",
-        city: "",
-        state: "",
-        country: "",
-        industry: [],
-        revenue: "",
-        askingPrice: "",
-        cashFlow: "",
-        status: "draft",
-        cimStatus: "not_ready",
-        ownershipStructure: "",
-        isOwnerInvolved: true,
-        ownershipBreakdown: "",
-        facilities: "",
-        numberOfEmployees: "",
-        warehouseStaff: "",
-        adminStaff: "",
-        generalManager: "",
-        warehouseSupervisor: "",
-        revenueModel: "",
-        ownerDetails: "",
-        workforceDescription: "",
-        keyClients: "",
-        businessDescription: "",
-        seasonality: "",
-        legalMatters: "",
-        growthNarrative: "",
-        image: "",
+        briefDescription: "",
+    businessOverview: "",
+    keyHighlights: [],
+    businessName: "",
+    businessType: "",
+    entityType: "",
+    yearStablished: "",
+    city: "",
+    state: "",
+    country: "",
+    ownershipStructure: "",
+    isOwnerInvolved: "",
+    ownerShipBreakdown: "",
+    facilitiesOffices: "",
+    numberOfEmployees: "",
+    warehouseStaff: "",
+    administrativeStaff: "",
+    generalManager: "",
+    warehouseSupervisor: "",
+    revenueModel: "",
+    ownerSemiInvolved: "",
+    workForceDescription: "",
+    keyClientsContacts: "",
+    whatDoseBusinessDo: "",
+    seasonalityOrTrends: "",
+    anyPendingLegalMatter: "",
+    growthOppertunityNarrative: "",
+    industry: [],
+    revenue: 0,
+    askingPrice: 0,
+    cashFlow: 0,
+    status: "inactive",
+    cimStatus: "not_ready",
       });
       fetchListings(); // refresh table
     } catch (error) {
@@ -212,7 +239,6 @@ export default function SellerListing() {
       : "Not Edited";
 
   const handleDeleteListing = async (id) => {
-    console.log("id >>>>>>>>>", id);
     if (!window.confirm("Are you sure you want to delete this listing?"))
       return;
 
@@ -226,7 +252,9 @@ export default function SellerListing() {
       console.error("Error deleting listing:", error);
     }
   };
-
+ const handleChange = (e, field) => {
+    setNewListing({ ...newListing, [field]: e.target.value });
+  };
   const actionTemplate = (row) => (
     <div className="action__listing_btns">
       <i
@@ -234,24 +262,41 @@ export default function SellerListing() {
         onClick={() => console.log("View", row._id)}
       ></i>
 
-      {row.status === "published" ? (
-        <i
-          className="pi pi-times cursor-pointer text-red-500 hover:text-red-700"
+      {row.status === "published" ? (<>
+       <i
+          className="pi pi-times cursor-pointer text-red-500 hover:text-red-700 button__unpublish_action_lisitng_seller"
           onClick={() => console.log("Unpublish", row._id)}
+          data-pr-tooltip="Unpublish"
         ></i>
+        <Tooltip target=".button__unpublish_action_lisitng_seller" position="top" />
+      
+      </>
+       
       ) : (
         <i
-          className="pi pi-upload cursor-pointer text-green-500 hover:text-green-700"
+          className="pi pi-pencil cursor-pointer text-green-500 hover:text-green-700"
           onClick={() => console.log("Publish", row._id)}
         ></i>
       )}
 
       <i
-        className="pi pi-trash cursor-pointer text-red-500 hover:text-red-700"
+        className="pi pi-trash cursor-pointer text-red-500 hover:text-red-700 button__delete_action_lisitng_seller"
         onClick={() => handleDeleteListing(row._id)}
-      ></i>
+         data-pr-tooltip="Remove"
+        ></i>
+        <Tooltip target=".button__delete_action_lisitng_seller" position="top" />
     </div>
   );
+const handleImageSelect = (e) => {
+  const file = e.files[0];
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+    setNewListing({ ...newListing, image: reader.result }); 
+  };
+
+  reader.readAsDataURL(file);
+};
 
   // ==== UI ====
   return (
@@ -285,263 +330,408 @@ export default function SellerListing() {
 
             <div className="">
               <p>
-                Manage all your business listings. View, edit, publish, and
-                control buyer CIM access for each listing.
+                This information is used to generate your Confidential Information Memorandum (CIM) and prepare your business for buyer review.
               </p>
             </div>
             <div className="">
-              <div className="p-fluid grid">
-                {/* Business Name */}
-                <div className="col-6">
-                  <InputText
-                    value={newListing.businessName}
-                    onChange={(e) =>
-                      setNewListing((f) => ({
-                        ...f,
-                        businessName: e.target.value,
-                      }))
-                    }
-                    placeholder="Business Name"
-                  />
-                </div>
+             <div className="listing__creation_block_main_wrap">
+              {/* Business Name */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Business Name</label>
+        <InputText
+          value={newListing.businessName}
+          onChange={(e) => handleChange(e, "businessName")}
+        />
+      </div>
 
-                {/* Business Type */}
-                <div className="col-6">
-                  <InputText
-                    value={newListing.businessType}
-                    onChange={(e) =>
-                      setNewListing((f) => ({
-                        ...f,
-                        businessType: e.target.value,
-                      }))
-                    }
-                    placeholder="Business Type"
-                  />
-                </div>
-                <div className="col-6">
-                  <label>Ownership Structure</label>
-                  <InputText
-                    value={newListing.ownershipStructure}
-                    onChange={(e) =>
-                      setNewListing((f) => ({
-                        ...f,
-                        ownershipStructure: e.target.value,
-                      }))
-                    }
-                    placeholder="Ownership Structure"
-                  />
-                </div>
-                {/* Entity Type */}
-                <div className="col-6">
-                  <Dropdown
-                    value={newListing.entityType}
-                    options={entityTypes}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, entityType: e.value }))
-                    }
-                    placeholder="Select Entity Type"
-                    className="w-full"
-                  />
-                </div>
+      {/* Business Type */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Business Type</label>
+        <Dropdown
+          value={newListing.businessType}
+          options={[{ label: "Retail", value: "retail" }, { label: "Manufacturing", value: "manufacturing" }]}
+          onChange={(e) => handleChange(e, "businessType")}
+          placeholder="Select"
+        />
+      </div>
 
-                {/* Year Established (Calendar - year only) */}
-                <div className="col-6">
-                  <Calendar
-                    value={newListing.yearStablished}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, yearStablished: e.value }))
-                    }
-                    view="year"
-                    dateFormat="yy"
-                    placeholder="Year Established"
-                    className="w-full"
-                  />
-                </div>
+      {/* File Uploads */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Business Image</label>
+        <FileUpload
+          mode="basic"
+          accept="image/*"
+          customUpload
+          auto
+          chooseLabel="Upload Image"
+          onSelect={handleImageSelect}
+        />
+      </div>
 
-                {/* Location */}
-                <div className="col-4">
-                  <InputText
-                    value={newListing.city}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, city: e.target.value }))
-                    }
-                    placeholder="City"
-                  />
-                </div>
-                <div className="col-4">
-                  <InputText
-                    value={newListing.state}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, state: e.target.value }))
-                    }
-                    placeholder="State"
-                  />
-                </div>
-                <div className="col-4">
-                  <InputText
-                    value={newListing.country}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, country: e.target.value }))
-                    }
-                    placeholder="Country"
-                  />
-                </div>
+      
+      {/* Entity Type */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Entity Type</label>
+        <Dropdown
+          value={newListing.entityType}
+          options={[
+              { label: "LLC", value: "llc" },
+              { label: "C-Corp", value: "c_corp" },
+              { label: "S-Corp", value: "s_corp" },
+              { label: "LLP", value: "llp" },
+              { label: "Sole Proprietorship", value: "sole_proprietorship" },
+              { label: "PLLC", value: "pllc" },
+              { label: "LP", value: "lp" },
+              { label: "Other", value: "other" }
+            ]}
+          onChange={(e) => handleChange(e, "entityType")}
+          placeholder="Select"
+        />
+      </div>
+     
 
-                {/* Industry */}
-                <div className="col-12">
-                  <MultiSelect
-                    value={newListing.industry}
-                    options={industryOptions}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, industry: e.value }))
-                    }
-                    placeholder="Select Industries"
-                    display="chip"
-                    className="w-full"
-                  />
-                </div>
+      {/* Key Highlights */}
+      <div className="listing__creation_field_col">
+        <label>Key Highlights</label>
+        <Chips
+          value={newListing.keyHighlights}
+          onChange={(e) => setNewListing({ ...newListing, keyHighlights: e.value })}
+          separator=","
+        />
+      </div>
 
-                {/* Financials */}
-                <div className="col-4">
-                  <InputText
-                    value={newListing.revenue}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, revenue: e.target.value }))
-                    }
-                    placeholder="Revenue"
-                  />
-                </div>
-                <div className="col-4">
-                  <InputText
-                    value={newListing.askingPrice}
-                    onChange={(e) =>
-                      setNewListing((f) => ({
-                        ...f,
-                        askingPrice: e.target.value,
-                      }))
-                    }
-                    placeholder="Asking Price"
-                  />
-                </div>
-                <div className="col-4">
-                  <InputText
-                    value={newListing.cashFlow}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, cashFlow: e.target.value }))
-                    }
-                    placeholder="Cash Flow"
-                  />
-                </div>
+       {/* Industry */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Industry</label>
+        <MultiSelect
+          value={newListing.industry}
+          options={[
+            { label: "Retail", value: "retail" },
+            { label: "Manufacturing", value: "manufacturing" },
+            { label: "Technology", value: "tech" },
+          ]}
+          onChange={(e) => setNewListing({ ...newListing, industry: e.value })}
+          placeholder="Select Industry"
+        />
+      </div>
 
-                {/* Status */}
-                <div className="col-6">
-                  <Dropdown
-                    value={newListing.status}
-                    options={[
-                      { label: "Draft", value: "draft" },
-                      { label: "Inactive", value: "inactive" },
-                      { label: "Live", value: "live" },
-                      { label: "Published", value: "published" },
-                    ]}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, status: e.value }))
-                    }
-                    placeholder="Status"
-                  />
-                </div>
+      {/* Revenue */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Revenue</label>
+        <InputNumber
+          value={newListing.revenue}
+          onValueChange={(e) => setNewListing({ ...newListing, revenue: e.value })}
+          mode="currency"
+          currency="USD"
+        />
+      </div>
 
-                {/* CIM Status */}
-                <div className="col-6">
-                  <Dropdown
-                    value={newListing.cimStatus}
-                    options={[
-                      { label: "Not Ready", value: "not_ready" },
-                      { label: "Incomplete", value: "incomplete" },
-                      { label: "Ready to Share", value: "ready_to_share" },
-                    ]}
-                    onChange={(e) =>
-                      setNewListing((f) => ({ ...f, cimStatus: e.value }))
-                    }
-                    placeholder="CIM Status"
-                  />
-                </div>
+      {/* Asking Price */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Asking Price</label>
+        <InputNumber
+          value={newListing.askingPrice}
+          onValueChange={(e) => setNewListing({ ...newListing, askingPrice: e.value })}
+          mode="currency"
+          currency="USD"
+        />
+      </div>
 
-                {/* Image Upload */}
-                <div className="col-12">
-                  <FileUpload
-                    mode="basic"
-                    accept="image/*"
-                    maxFileSize={1000000}
-                    chooseLabel="Upload Image"
-                    auto
-                    customUpload
-                    uploadHandler={(e) => {
-                      const file = e.files[0];
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setNewListing((f) => ({
-                          ...f,
-                          image: reader.result,
-                        }));
-                      };
-                      reader.readAsDataURL(file);
-                    }}
-                    className="w-full"
-                  />
-                </div>
+      {/* Cash Flow */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Cash Flow</label>
+        <InputNumber
+          value={newListing.cashFlow}
+          onValueChange={(e) => setNewListing({ ...newListing, cashFlow: e.value })}
+          mode="currency"
+          currency="USD"
+        />
+      </div>
 
-                {/* Financial Documents */}
-                <div className="col-12">
-                  <FileUpload
-                    mode="basic"
-                    accept=".pdf,.doc,.docx"
-                    chooseLabel="Upload P&L File"
-                    customUpload
-                    auto
-                    uploadHandler={(e) => {
-                      setNewListing((f) => ({
-                        ...f,
-                        profitAndLossFile: e.files[0].name,
-                      }));
-                    }}
-                  />
-                </div>
 
-                <div className="col-12">
-                  <FileUpload
-                    mode="basic"
-                    accept=".pdf,.doc,.docx"
-                    chooseLabel="Upload Balance Sheet"
-                    customUpload
-                    auto
-                    uploadHandler={(e) => {
-                      setNewListing((f) => ({
-                        ...f,
-                        balanceSheetFile: e.files[0].name,
-                      }));
-                    }}
-                  />
-                </div>
+      {/* Status */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Status</label>
+        <Dropdown
+          value={newListing.status}
+          options={[
+            { label: "Live", value: "live" },
+            { label: "Inactive", value: "inactive" },
+            { label: "Draft", value: "draft" },
+          ]}
+          onChange={(e) => handleChange(e, "status")}
+        />
+      </div>
 
-                <div className="col-12">
-                  <FileUpload
-                    mode="basic"
-                    accept=".pdf,.doc,.docx"
-                    chooseLabel="Upload 3-Year Tax Return"
-                    customUpload
-                    auto
-                    uploadHandler={(e) => {
-                      setNewListing((f) => ({
-                        ...f,
-                        threeYearTaxReturnFile: e.files[0].name,
-                      }));
-                    }}
-                  />
-                </div>
-              </div>
+      {/* CIM Status */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>CIM Status</label>
+        <Dropdown
+          value={newListing.cimStatus}
+          options={[
+            { label: "Ready to share", value: "ready_to_share" },
+            { label: "Incomplete", value: "incomplete" },
+            { label: "Not ready", value: "not_ready" },
+          ]}
+          onChange={(e) => handleChange(e, "cimStatus")}
+        />
+      </div>
+      
+
+      {/* Year Established */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Year Established</label>
+        <Dropdown
+          value={newListing.yearStablished}
+          options={[{ label: "2020", value: "2020" }, { label: "2021", value: "2021" }]}
+          onChange={(e) => handleChange(e, "yearStablished")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* City */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>City</label>
+        <Dropdown
+          value={newListing.city}
+          options={[{ label: "New York", value: "newyork" }, { label: "Chicago", value: "chicago" }]}
+          onChange={(e) => handleChange(e, "city")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* State */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>State</label>
+        <Dropdown
+          value={newListing.state}
+          options={[{ label: "NY", value: "ny" }, { label: "IL", value: "il" }]}
+          onChange={(e) => handleChange(e, "state")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* Country */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Country</label>
+        <Dropdown
+          value={newListing.country}
+          options={[{ label: "USA", value: "usa" }, { label: "Canada", value: "canada" }]}
+          onChange={(e) => handleChange(e, "country")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* Ownership Structure */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Ownership Structure</label>
+        <InputText
+          value={newListing.ownershipStructure}
+          onChange={(e) => handleChange(e, "ownershipStructure")}
+        />
+      </div>
+
+      {/* Is Owner Involved */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Is Owner Involved?</label>
+        <div className="flex align-items-center gap-3 mt-2">
+          <RadioButton
+            inputId="yes"
+            name="isOwnerInvolved"
+            value="yes"
+            onChange={(e) =>
+              setNewListing({ ...newListing, isOwnerInvolved: e.value })
+            }
+            checked={newListing.isOwnerInvolved === "yes"}
+          />
+          <label htmlFor="yes">Yes</label>
+          <RadioButton
+            inputId="no"
+            name="isOwnerInvolved"
+            value="no"
+            onChange={(e) =>
+              setNewListing({ ...newListing, isOwnerInvolved: e.value })
+            }
+            checked={newListing.isOwnerInvolved === "no"}
+          />
+          <label htmlFor="no">No</label>
+        </div>
+      </div>
+
+      {/* Number of Employees */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Number of Employees</label>
+        <Dropdown
+          value={newListing.numberOfEmployees}
+          options={[{ label: "10-50", value: "10-50" }, { label: "50-100", value: "50-100" }]}
+          onChange={(e) => handleChange(e, "numberOfEmployees")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* Warehouse Staff */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Warehouse Staff</label>
+        <Dropdown
+          value={newListing.warehouseStaff}
+          options={[{ label: "5", value: "5" }, { label: "10", value: "10" }]}
+          onChange={(e) => handleChange(e, "warehouseStaff")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* Administrative Staff */}
+      <div className="listing__creation_field_col md:col-4">
+        <label>Administrative Staff</label>
+        <Dropdown
+          value={newListing.administrativeStaff}
+          options={[{ label: "3", value: "3" }, { label: "6", value: "6" }]}
+          onChange={(e) => handleChange(e, "administrativeStaff")}
+          placeholder="Select"
+        />
+      </div>
+
+      {/* General Manager */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>General Manager</label>
+        <InputText
+          value={newListing.generalManager}
+          onChange={(e) => handleChange(e, "generalManager")}
+        />
+      </div>
+
+      {/* Warehouse Supervisor */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Warehouse Supervisor</label>
+        <InputText
+          value={newListing.warehouseSupervisor}
+          onChange={(e) => handleChange(e, "warehouseSupervisor")}
+        />
+      </div>
+
+      {/* Revenue Model */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Revenue Model</label>
+        <Dropdown
+          value={newListing.revenueModel}
+          options={[{ label: "Subscription", value: "subscription" }, { label: "Sales", value: "sales" }]}
+          onChange={(e) => handleChange(e, "revenueModel")}
+          placeholder="Select"
+        />
+      </div>
+      
+ <div className="listing__creation_field_col">
+        <label>Brief Description</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.briefDescription}
+          onChange={(e) => handleChange(e, "briefDescription")}
+        />
+      </div>
+
+      {/* Business Overview */}
+      <div className="listing__creation_field_col">
+        <label>Business Overview</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.businessOverview}
+          onChange={(e) => handleChange(e, "businessOverview")}
+        />
+      </div>
+      {/* Ownership % Breakdown */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Ownership % Breakdown</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.ownerShipBreakdown}
+          onChange={(e) => handleChange(e, "ownerShipBreakdown")}
+        />
+      </div>
+
+      {/* Facilities / Offices */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Facilities / Offices</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.facilitiesOffices}
+          onChange={(e) => handleChange(e, "facilitiesOffices")}
+        />
+      </div>
+
+      {/* Owner (Semi-Involved) */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Owner (Semi-Involved)</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.ownerSemiInvolved}
+          onChange={(e) => handleChange(e, "ownerSemiInvolved")}
+        />
+      </div>
+
+      {/* Workforce Description */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Workforce Description</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.workForceDescription}
+          onChange={(e) => handleChange(e, "workForceDescription")}
+        />
+      </div>
+
+      {/* Key Clients / Contracts */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Key Clients / Contracts</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.keyClientsContacts}
+          onChange={(e) => handleChange(e, "keyClientsContacts")}
+        />
+      </div>
+
+      {/* What does your business do? */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>What does your business do?</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.whatDoseBusinessDo}
+          onChange={(e) => handleChange(e, "whatDoseBusinessDo")}
+        />
+      </div>
+
+      {/* Seasonality or Trends */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Seasonality or Trends</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.seasonalityOrTrends}
+          onChange={(e) => handleChange(e, "seasonalityOrTrends")}
+        />
+      </div>
+
+      {/* Any Pending Legal Matters? */}
+      <div className="listing__creation_field_col md:col-6">
+        <label>Any Pending Legal Matters?</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.anyPendingLegalMatter}
+          onChange={(e) => handleChange(e, "anyPendingLegalMatter")}
+        />
+      </div>
+
+      {/* Growth & Opportunity Narrative */}
+      <div className="listing__creation_field_col">
+        <label>Growth & Opportunity Narrative</label>
+        <InputTextarea
+          rows={3}
+          value={newListing.growthOppertunityNarrative}
+          onChange={(e) => handleChange(e, "growthOppertunityNarrative")}
+        />
+      </div>
+
+    </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-content-end mt-3 gap-2">
+              <div className="listing__creation_block_main_action_btn">
                 <Button
                   label="Cancel"
                   icon="pi pi-times"
@@ -551,6 +741,7 @@ export default function SellerListing() {
                 <Button
                   label="Create"
                   icon="pi pi-check"
+                  className="p-button-success"
                   onClick={handleCreateListing}
                 />
               </div>
@@ -621,8 +812,8 @@ export default function SellerListing() {
               <Dropdown
                 value={filters.status}
                 options={[
-                  { label: "Published", value: "published" },
-                  { label: "Draft", value: "draft" },
+                  { label: "Live", value: "live" },
+                  { label: "Inactive", value: "inactive" },
                 ]}
                 onChange={(e) => setFilters((f) => ({ ...f, status: e.value }))}
                 placeholder="Status"

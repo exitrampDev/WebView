@@ -2392,6 +2392,72 @@ button.button__remove_listing_fav .pi-heart-fill:before {
     font-size: 30px;
     color: #4F93FF;
 }
+.complete_buyer_form_wrap.seller__form_profile .field.form__field_col.field.form__field_col_yearOperation_content button.p-datepicker-trigger.p-button.p-component.p-button-icon-only {
+    padding: 0 12px;
+}
+.listing__creation_block_main_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    column-gap: 30px;
+    row-gap: 15px;
+    align-items: center;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col {
+    width: 100%;
+    max-width: 440px;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col label {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    color: #002f67;
+    margin-bottom: 5px;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col textarea.p-inputtextarea {
+    width: 100%;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col  input.p-inputtext {
+    width: 100%;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col span {
+    width: 100%;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col .p-inputwrapper {
+    width: 100%;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col .p-inputwrapper ul.p-inputtext.p-chips-multiple-container {
+    width: 100%;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col .flex.align-items-center.gap-3.mt-2 {
+    display: flex;
+}
+
+.listing__creation_block_main_wrap .listing__creation_field_col .flex.align-items-center.gap-3.mt-2 label {
+    width: fit-content;
+    margin: 0 20px 0 5px;
+}
+.listing__creation_block_main_action_btn {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.listing__creation_block_main_action_btn button {
+    margin: 0 !important;
+}
+
+button.p-button-secondary.p-button.p-component {
+    background: #8a8a8a;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;
