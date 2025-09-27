@@ -22,6 +22,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import { Checkbox } from "primereact/checkbox";
 import { Chips } from "primereact/chips";
+import { Link } from "react-router-dom";
 
 export default function SellerListing() {
   const { user, access_token } = useRecoilValue(authState) ?? {};
@@ -262,6 +263,15 @@ export default function SellerListing() {
         onClick={() => console.log("View", row._id)}
       ></i>
 
+
+       <Link to={`/user/cim/${row._id}`}>
+         <i
+          className="pi pi-file cursor-pointer text-green-500 hover:text-green-700 cim__icon_click"
+          data-pr-tooltip="View CIM"
+        ></i>
+        <Tooltip target=".cim__icon_click" position="top" />
+      </Link>
+
       {row.status === "published" ? (<>
        <i
           className="pi pi-times cursor-pointer text-red-500 hover:text-red-700 button__unpublish_action_lisitng_seller"
@@ -347,12 +357,11 @@ const handleImageSelect = (e) => {
       {/* Business Type */}
       <div className="listing__creation_field_col md:col-4">
         <label>Business Type</label>
-        <Dropdown
-          value={newListing.businessType}
-          options={[{ label: "Retail", value: "retail" }, { label: "Manufacturing", value: "manufacturing" }]}
-          onChange={(e) => handleChange(e, "businessType")}
-          placeholder="Select"
-        />
+          <InputText
+            value={newListing.businessType || ""}
+            onChange={(e) => handleChange(e, "businessType", e.target.value)}
+            placeholder="Enter business type"
+          />
       </div>
 
       {/* File Uploads */}
@@ -403,15 +412,14 @@ const handleImageSelect = (e) => {
        {/* Industry */}
       <div className="listing__creation_field_col md:col-6">
         <label>Industry</label>
-        <MultiSelect
-          value={newListing.industry}
-          options={[
-            { label: "Retail", value: "retail" },
-            { label: "Manufacturing", value: "manufacturing" },
-            { label: "Technology", value: "tech" },
-          ]}
-          onChange={(e) => setNewListing({ ...newListing, industry: e.value })}
-          placeholder="Select Industry"
+        <InputTextarea
+          value={newListing.industry?.join(", ") || ""}
+          onChange={(e) =>
+            setNewListing({ ...newListing, industry: e.target.value.split(",").map(i => i.trim()) })
+          }
+          placeholder="Enter industries (comma separated)"
+          rows={3}
+          cols={30}
         />
       </div>
 
@@ -478,49 +486,49 @@ const handleImageSelect = (e) => {
       </div>
       
 
-      {/* Year Established */}
-      <div className="listing__creation_field_col md:col-4">
-        <label>Year Established</label>
-        <Dropdown
-          value={newListing.yearStablished}
-          options={[{ label: "2020", value: "2020" }, { label: "2021", value: "2021" }]}
-          onChange={(e) => handleChange(e, "yearStablished")}
-          placeholder="Select"
-        />
-      </div>
+     <div className="listing__creation_field_col md:col-4">
+  <label>Year Established</label>
+  <Calendar
+    value={newListing.yearStablished ? new Date(newListing.yearStablished) : null}
+    onChange={(e) =>
+      handleChange(e, "yearStablished", e.value ? e.value.getFullYear() : "")
+    }
+    view="year"
+    dateFormat="yy"   // shows only year
+    placeholder="Select Year"
+    showIcon
+  />
+</div>
 
-      {/* City */}
-      <div className="listing__creation_field_col md:col-4">
-        <label>City</label>
-        <Dropdown
-          value={newListing.city}
-          options={[{ label: "New York", value: "newyork" }, { label: "Chicago", value: "chicago" }]}
-          onChange={(e) => handleChange(e, "city")}
-          placeholder="Select"
-        />
-      </div>
+     {/* City */}
+<div className="listing__creation_field_col md:col-4">
+  <label>City</label>
+  <InputText
+    value={newListing.city || ""}
+    onChange={(e) => handleChange(e, "city", e.target.value)}
+    placeholder="Enter City"
+  />
+</div>
 
-      {/* State */}
-      <div className="listing__creation_field_col md:col-4">
-        <label>State</label>
-        <Dropdown
-          value={newListing.state}
-          options={[{ label: "NY", value: "ny" }, { label: "IL", value: "il" }]}
-          onChange={(e) => handleChange(e, "state")}
-          placeholder="Select"
-        />
-      </div>
+{/* State */}
+<div className="listing__creation_field_col md:col-4">
+  <label>State</label>
+  <InputText
+    value={newListing.state || ""}
+    onChange={(e) => handleChange(e, "state", e.target.value)}
+    placeholder="Enter State"
+  />
+</div>
 
-      {/* Country */}
-      <div className="listing__creation_field_col md:col-4">
-        <label>Country</label>
-        <Dropdown
-          value={newListing.country}
-          options={[{ label: "USA", value: "usa" }, { label: "Canada", value: "canada" }]}
-          onChange={(e) => handleChange(e, "country")}
-          placeholder="Select"
-        />
-      </div>
+{/* Country */}
+<div className="listing__creation_field_col md:col-4">
+  <label>Country</label>
+  <InputText
+    value={newListing.country || ""}
+    onChange={(e) => handleChange(e, "country", e.target.value)}
+    placeholder="Enter Country"
+  />
+</div>  
 
       {/* Ownership Structure */}
       <div className="listing__creation_field_col md:col-4">

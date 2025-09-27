@@ -22,6 +22,7 @@ import ProfileFormBuyer from "./components/dashboard/DasboardContentComponents/F
 import MySaveListing from "./components/dashboard/DasboardContentComponents/MySaveListing";
 import RecentViewListing from "./components/dashboard/DasboardContentComponents/RecentViewListing";
 import FreeSellerForm from "./components/dashboard/DasboardContentComponents/FreeSellerProfile";
+import CimView from "./components/dashboard/DasboardContentComponents/CimView";
 
 const App = () => {
   return (
@@ -49,7 +50,7 @@ const App = () => {
           <Route path="dashboard" element={<DashboardContent />} />
           <Route path="saved-listing" element={<div>Saved Listing</div>} />
           <Route path="my-listing" element={<SellerListing />} />
-          <Route path="recently-viewed" element={<>adds</>} />
+          <Route path="cim/:id" element={<CimView/>} />
           <Route
             path="complete-profile-buyer-free"
             element={<ProfileFormBuyer />}

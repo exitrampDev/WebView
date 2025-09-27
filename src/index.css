@@ -2458,6 +2458,53 @@ button.button__remove_listing_fav .pi-heart-fill:before {
 button.p-button-secondary.p-button.p-component {
     background: #8a8a8a;
 }
+
+.cim__view_main_block_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.cim__view_main_block_wrap .cim__view_main_card {
+    width: calc(50% - 15px);
+    background: #fff;
+    border-radius: 15px;
+    padding: 24px;
+}
+
+.cim__view_main_block_wrap .cim__view_main_card h2.heading__card_cim {
+    font-size: 18px;
+    color: #4F93FF;
+    margin: 0 0 15px 0;
+    font-weight: 500;
+}
+
+.cim__view_main_block_wrap .cim__view_main_card  .list__card_cim_row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #818A98;
+}
+
+.cim__view_main_block_wrap .cim__view_main_card .list__card_cim_row span {
+    color: #002F68;
+}
+.list__card_cim_row.featured_facilities_cim {
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.list__card_cim_row.featured_facilities_cim ul.ml-2 {
+    padding: 0;
+    list-style: none; 
+}
+.cim__view_main_block_wrap .cim__view_main_card .list__card_cim_row.list__card_cim_row_dir_col {
+    flex-direction: column;
+    gap: 10px;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;
