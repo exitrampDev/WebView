@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import notifInfo from "../../../assets/notifInfo.png";
 import serachIcon from "../../../assets/serachIcon.png";
 import userImg from "../../../assets/userImg.png";
+import fileClip from "../../../assets/fileClip.png";
 import axios from "axios";
 
 function CIMview() {
@@ -124,10 +125,10 @@ function CIMview() {
       {/* Attached Files */}
       <div className="cim__view_main_card">
         <h2 className="heading__card_cim">Attached Files</h2>
-        {listing.profitAndLossFile && <a href={listing.profitAndLossFile}>P&L Statement</a>}<br />
-        {listing.balanceSheetFile && <a href={listing.balanceSheetFile}>Balance Sheet</a>}<br />
-        {listing.threeYearTaxReturnFile && <a href={listing.threeYearTaxReturnFile}>3-Year Tax Return</a>}<br />
-        {listing.ownerShipCaptableFile && <a href={listing.ownerShipCaptableFile}>Ownership Cap Table</a>}
+        {listing.profitAndLossFile && <div className="icon__file_cim"><img src={fileClip} alt=""/><a href={listing.profitAndLossFile}>P&L Statement</a></div>}
+        {listing.balanceSheetFile && <div className="icon__file_cim"><img src={fileClip} alt=""/><a href={listing.balanceSheetFile}>Balance Sheet</a></div>}
+        {listing.threeYearTaxReturnFile && <div className="icon__file_cim"><img src={fileClip} alt=""/><a href={listing.threeYearTaxReturnFile}>3-Year Tax Return</a></div>}
+        {listing.ownerShipCaptableFile && <div className="icon__file_cim"><img src={fileClip} alt=""/><a href={listing.ownerShipCaptableFile}>Ownership Cap Table</a></div>}
       </div>
 
       {/* Ownership & Legal */}

@@ -2505,6 +2505,18 @@ button.p-button-secondary.p-button.p-component {
     flex-direction: column;
     gap: 10px;
 }
+.cim__view_main_block_wrap .cim__view_main_card .icon__file_cim {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 9px;
+}
+
+.cim__view_main_block_wrap .cim__view_main_card .icon__file_cim a {
+    text-decoration: none;
+    color: #002F68;
+    font-size: 15px;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;

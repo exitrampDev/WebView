@@ -25,6 +25,8 @@ import { Chips } from "primereact/chips";
 import { Link } from "react-router-dom";
 
 export default function SellerListing() {
+  const [listingStep, setListingStep] = useState(0);
+   const [fileListingUploadId, setFileListingUploadId] = useState(0);
   const { user, access_token } = useRecoilValue(authState) ?? {};
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -91,9 +93,8 @@ export default function SellerListing() {
     revenue: 0,
     askingPrice: 0,
     cashFlow: 0,
-    status: "inactive",
-    cimStatus: "not_ready",
   });
+
 
   // Fetch Listings
   const fetchListings = async () => {
@@ -121,62 +122,95 @@ export default function SellerListing() {
     if (access_token) fetchListings();
   }, [access_token]);
 
-  // Create Listing Handler
-  const handleCreateListing = async () => {
-    try {
-      const payload = {
-        ...newListing,
-        revenue: Number(newListing.revenue),
-        askingPrice: Number(newListing.askingPrice),
-        cashFlow: Number(newListing.cashFlow),
-      };
+// Create Listing Handler
+const handleCreateListing = async () => {
+  try {
+    const payload = {
+      ...newListing,
+      revenue: Number(newListing.revenue),
+      askingPrice: Number(newListing.askingPrice),
+      cashFlow: Number(newListing.cashFlow),
+    };
 
-      await axios.post("http://localhost:3000/business-listing", payload, {
+    // Capture response here
+    const response = await axios.post(
+      "http://localhost:3000/business-listing",
+      payload,
+      {
         headers: { Authorization: `Bearer ${access_token}` },
-      });
+      }
+    );
 
-      setShowCreateDialog(false);
-      setNewListing({
-        briefDescription: "",
-    businessOverview: "",
-    keyHighlights: [],
-    businessName: "",
-    businessType: "",
-    entityType: "",
-    yearStablished: "",
-    city: "",
-    state: "",
-    country: "",
-    ownershipStructure: "",
-    isOwnerInvolved: "",
-    ownerShipBreakdown: "",
-    facilitiesOffices: "",
-    numberOfEmployees: "",
-    warehouseStaff: "",
-    administrativeStaff: "",
-    generalManager: "",
-    warehouseSupervisor: "",
-    revenueModel: "",
-    ownerSemiInvolved: "",
-    workForceDescription: "",
-    keyClientsContacts: "",
-    whatDoseBusinessDo: "",
-    seasonalityOrTrends: "",
-    anyPendingLegalMatter: "",
-    growthOppertunityNarrative: "",
-    industry: [],
-    revenue: 0,
-    askingPrice: 0,
-    cashFlow: 0,
-    status: "inactive",
-    cimStatus: "not_ready",
-      });
-      fetchListings(); // refresh table
-    } catch (error) {
-      console.error("Error creating listing:", error);
-    }
-  };
+    // If you only want the response data:
+    setFileListingUploadId(response.data._id);
 
+    // reset form
+    setNewListing({
+      briefDescription: "",
+      businessOverview: "",
+      keyHighlights: [],
+      businessName: "",
+      businessType: "",
+      entityType: "",
+      yearStablished: "",
+      city: "",
+      state: "",
+      country: "",
+      ownershipStructure: "",
+      isOwnerInvolved: "",
+      ownerShipBreakdown: "",
+      facilitiesOffices: "",
+      numberOfEmployees: "",
+      warehouseStaff: "",
+      administrativeStaff: "",
+      generalManager: "",
+      warehouseSupervisor: "",
+      revenueModel: "",
+      ownerSemiInvolved: "",
+      workForceDescription: "",
+      keyClientsContacts: "",
+      whatDoseBusinessDo: "",
+      seasonalityOrTrends: "",
+      anyPendingLegalMatter: "",
+      growthOppertunityNarrative: "",
+      industry: [],
+      revenue: 0,
+      askingPrice: 0,
+      cashFlow: 0,
+    });
+
+    fetchListings(); // refresh table
+    setListingStep(listingStep + 1);
+  } catch (error) {
+    console.error("Error creating listing:", error.response?.data || error.message);
+  }
+};
+
+
+
+  const handleFileUpload = async (file, type) => {
+  if (!file) return;
+    const formData = new FormData();
+  formData.append("file", file);  
+  formData.append("type", type);
+
+  try {
+    await axios.post(
+      `http://localhost:3000/business-listing/${fileListingUploadId}/upload/${type}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
+        }, 
+      }
+    );
+    alert(`${type.replace(/_/g, " ")} uploaded successfully!`);
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    alert("Upload failed. Please try again.");
+  }
+};
   // ==== Templates ====
   const listingNameTemplate = (row) => (
     <div className="flex align-items-center">
@@ -314,6 +348,7 @@ const handleImageSelect = (e) => {
       <div className="my-listings-page">
         {showCreateDialog ? (
           <>
+             {listingStep === 0 && (<>
             <div className="dashboard__header_block">
               <h3 className="heading__Digital_CIM">
                 {" "}
@@ -338,7 +373,7 @@ const handleImageSelect = (e) => {
               </div>
             </div>
 
-            <div className="">
+            <div className="brief__infor_content">
               <p>
                 This information is used to generate your Confidential Information Memorandum (CIM) and prepare your business for buyer review.
               </p>
@@ -457,34 +492,7 @@ const handleImageSelect = (e) => {
       </div>
 
 
-      {/* Status */}
-      <div className="listing__creation_field_col md:col-6">
-        <label>Status</label>
-        <Dropdown
-          value={newListing.status}
-          options={[
-            { label: "Live", value: "live" },
-            { label: "Inactive", value: "inactive" },
-            { label: "Draft", value: "draft" },
-          ]}
-          onChange={(e) => handleChange(e, "status")}
-        />
-      </div>
-
-      {/* CIM Status */}
-      <div className="listing__creation_field_col md:col-6">
-        <label>CIM Status</label>
-        <Dropdown
-          value={newListing.cimStatus}
-          options={[
-            { label: "Ready to share", value: "ready_to_share" },
-            { label: "Incomplete", value: "incomplete" },
-            { label: "Not ready", value: "not_ready" },
-          ]}
-          onChange={(e) => handleChange(e, "cimStatus")}
-        />
-      </div>
-      
+     
 
      <div className="listing__creation_field_col md:col-4">
   <label>Year Established</label>
@@ -747,13 +755,76 @@ const handleImageSelect = (e) => {
                   onClick={() => setShowCreateDialog(false)}
                 />
                 <Button
-                  label="Create"
+                  label="Save & Continue"
                   icon="pi pi-check"
                   className="p-button-success"
                   onClick={handleCreateListing}
                 />
               </div>
             </div>
+            </>
+             )}
+             {listingStep === 1 && (
+  <div className="listing__upload_files_wrap">
+    <h3 className="heading__Digital_CIM">Upload Financial Documents</h3>
+    <p className="mb-4">PDF preferred. 10MB max per file.</p>
+
+    <div className="grid">
+      {/* Profit & Loss */}
+      <div className="col-6">
+        <label>Profit &amp; Loss Statement</label>
+        <FileUpload
+          mode="basic"
+          accept=".pdf"
+          maxFileSize={10000000}
+          customUpload
+          chooseLabel="File Upload"
+          uploadHandler={(e) => handleFileUpload(e.files[0], "profit_loss")}
+        />
+      </div>
+
+      {/* Balance Sheet */}
+      <div className="col-6">
+        <label>Balance Sheet</label>
+        <FileUpload
+          mode="basic"
+          accept=".pdf"
+          maxFileSize={10000000}
+          customUpload
+          chooseLabel="File Upload"
+          uploadHandler={(e) => handleFileUpload(e.files[0], "balance_sheet")}
+        />
+      </div>
+
+      {/* 3 Years of Tax Returns */}
+      <div className="col-6 mt-4">
+        <label>3 Years of Tax Returns</label>
+        <FileUpload
+          mode="basic"
+          accept=".pdf"
+          maxFileSize={10000000}
+          customUpload
+          chooseLabel="File Upload"
+          uploadHandler={(e) => handleFileUpload(e.files[0], "three_year_tax_return")}
+        />
+      </div>
+
+      {/* Ownership / Cap Table */}
+      <div className="col-6 mt-4">
+        <label>Ownership or Cap Table</label>
+        <FileUpload
+          mode="basic"
+          accept=".pdf"
+          maxFileSize={10000000}
+          customUpload
+          chooseLabel="File Upload"
+          uploadHandler={(e) => handleFileUpload(e.files[0], "ownership_or_cap_table")}
+        />
+      </div>
+    </div>
+  </div>
+)}
+
           </>
         ) : (
           <>
@@ -778,7 +849,7 @@ const handleImageSelect = (e) => {
               </div>
             </div>
 
-            <div className="">
+            <div className="brief__infor_content">
               <p>
                 Manage all your business listings. View, edit, publish, and
                 control buyer CIM access for each listing.
