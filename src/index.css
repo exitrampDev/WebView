@@ -2517,6 +2517,116 @@ button.p-button-secondary.p-button.p-component {
     color: #002F68;
     font-size: 15px;
 }
+.listing__upload_files_wrap .listing__upload_files_grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    height: calc(100vh - 200px);
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile {
+    width: calc(50% - 15px);
+}
+
+.listing__upload_files_wrap {
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_grid_wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    height: 160px;
+    column-gap: 30px;
+    row-gap: 15px;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile label {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    color: #002f67;
+    margin-bottom: 5px;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile  .p-fileupload.p-fileupload-basic.p-component {
+    display: flex;
+    gap: 15px;
+    background: #fff;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile .p-fileupload.p-fileupload-basic.p-component:before {
+    content: 'PDF preferred. 10MB max';
+    font-size: 14px;
+    color: #818A98;
+    padding-left: 10px;
+}
+.listing__upload_files_wrap .listing__upload_files_grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    height: calc(100vh - 200px);
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile {
+    width: calc(50% - 15px);
+}
+
+.listing__upload_files_wrap {
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_grid_wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    height: 160px;
+    column-gap: 30px;
+    row-gap: 15px;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile label {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    color: #002f67;
+    margin-bottom: 5px;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile  .p-fileupload.p-fileupload-basic.p-component {
+    display: flex;
+    gap: 15px;
+    background: #fff;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile .p-fileupload.p-fileupload-basic.p-component:before {
+    content: 'PDF preferred. 10MB max';
+    font-size: 14px;
+    color: #818A98;
+    padding-left: 10px;
+}
+
+.listing__upload_files_submit_btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.listing__upload_files_submit_btn button.p-button-success.p-button.p-component {
+    margin: 0;
+}
+.listing__upload_files_wrap .listing__upload_files_grid .listing__upload_files_uplosdFile span.p-button-label.p-clickable {
+    font-size: 13px;
+}
 @media screen and (min-width: 1024px) and (max-width: 1920px) {
   .header_container nav.nav_col a {
     font-size: 18px;

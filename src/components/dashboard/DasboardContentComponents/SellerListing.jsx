@@ -25,6 +25,12 @@ import { Chips } from "primereact/chips";
 import { Link } from "react-router-dom";
 
 export default function SellerListing() {
+    const [files, setFiles] = useState({
+    profit_loss: null,
+    balance_sheet: null,
+    three_year_tax_return: null,
+    ownership_or_cap_table: null,
+  });
   const [listingStep, setListingStep] = useState(0);
    const [fileListingUploadId, setFileListingUploadId] = useState(0);
   const { user, access_token } = useRecoilValue(authState) ?? {};
@@ -189,28 +195,35 @@ const handleCreateListing = async () => {
 
 
   const handleFileUpload = async (file, type) => {
-  if (!file) return;
-    const formData = new FormData();
-  formData.append("file", file);  
-  formData.append("type", type);
-
-  try {
-    await axios.post(
-      `http://localhost:3000/business-listing/${fileListingUploadId}/upload/${type}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${access_token}`,
-        }, 
-      }
-    );
-    alert(`${type.replace(/_/g, " ")} uploaded successfully!`);
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    alert("Upload failed. Please try again.");
-  }
+ setFiles((prev) => ({ ...prev, [type]: file }));
 };
+const handleSubmit = async () => {
+    try {
+      for (const [key, file] of Object.entries(files)) {
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          await axios.post(
+               `http://localhost:3000/business-listing/${fileListingUploadId}/upload/${key}`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `Bearer ${access_token}`,
+                }, 
+              }
+            );
+        }
+      }
+
+      // redirect after uploads
+      window.location.href = `http://localhost:5173/user/cim/${fileListingUploadId}`;
+    } catch (error) {
+      console.error("File upload failed:", error);
+      alert("Failed to upload documents, please try again.");
+    }
+  };
+
   // ==== Templates ====
   const listingNameTemplate = (row) => (
     <div className="flex align-items-center">
@@ -765,64 +778,101 @@ const handleImageSelect = (e) => {
             </>
              )}
              {listingStep === 1 && (
+              <>
+              <div className="dashboard__header_block">
+              <h3 className="heading__Digital_CIM">
+                Upload Key Business Files
+              </h3>
+
+              <div className="dashboard__header_search_notification_wrap">
+                <div className="dashboard__search_field_wrap">
+                  <input type="text" placeholder="Search" />
+                  <img src={serachIcon} alt="" />
+                </div>
+                <div className="dashboard__notification_wrap">
+                  <button>
+                    <img src={notifInfo} alt="" />
+                  </button>
+                </div>
+                <div className="dashboard__user_wrap">
+                  <button>
+                    <img src={userImg} alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="brief__infor_content">
+              <p>
+                Upload core documents that support your CIM and buyer evaluation process. These files remain private and can be selectively shared later.
+              </p>
+            </div>
   <div className="listing__upload_files_wrap">
-    <h3 className="heading__Digital_CIM">Upload Financial Documents</h3>
-    <p className="mb-4">PDF preferred. 10MB max per file.</p>
 
-    <div className="grid">
-      {/* Profit & Loss */}
-      <div className="col-6">
-        <label>Profit &amp; Loss Statement</label>
-        <FileUpload
-          mode="basic"
-          accept=".pdf"
-          maxFileSize={10000000}
-          customUpload
-          chooseLabel="File Upload"
-          uploadHandler={(e) => handleFileUpload(e.files[0], "profit_loss")}
-        />
+      <div className="listing__upload_files_grid">
+       <div className="listing__upload_files_grid_wrap">
+         <div className="listing__upload_files_uplosdFile">
+          <label>Profit &amp; Loss Statement</label>
+          <FileUpload
+            mode="basic"
+            accept=".pdf"
+            maxFileSize={10000000}
+            customUpload
+            chooseLabel="File Upload"
+            uploadHandler={(e) => handleFileUpload(e.files[0], "profit_loss")}
+          />
+        </div>
+
+        <div className="listing__upload_files_uplosdFile">
+          <label>Balance Sheet</label>
+          <FileUpload
+            mode="basic"
+            accept=".pdf"
+            maxFileSize={10000000}
+            customUpload
+            chooseLabel="File Upload"
+            uploadHandler={(e) => handleFileUpload(e.files[0], "balance_sheet")}
+          />
+        </div>
+
+        <div className="listing__upload_files_uplosdFile ">
+          <label>3 Years of Tax Returns</label>
+          <FileUpload
+            mode="basic"
+            accept=".pdf"
+            maxFileSize={10000000}
+            customUpload
+            chooseLabel="File Upload"
+            uploadHandler={(e) => handleFileUpload(e.files[0], "three_year_tax_return")}
+          />
+        </div>
+
+        <div className="listing__upload_files_uplosdFile ">
+          <label>Ownership or Cap Table</label>
+          <FileUpload
+            mode="basic"
+            accept=".pdf"
+            maxFileSize={10000000}
+            customUpload
+            chooseLabel="File Upload"
+            uploadHandler={(e) => handleFileUpload(e.files[0], "ownership_or_cap_table")}
+          />
+        </div>
+       </div>
       </div>
 
-      {/* Balance Sheet */}
-      <div className="col-6">
-        <label>Balance Sheet</label>
-        <FileUpload
-          mode="basic"
-          accept=".pdf"
-          maxFileSize={10000000}
-          customUpload
-          chooseLabel="File Upload"
-          uploadHandler={(e) => handleFileUpload(e.files[0], "balance_sheet")}
-        />
-      </div>
+      <div className="listing__upload_files_submit_btn">
+        
 
-      {/* 3 Years of Tax Returns */}
-      <div className="col-6 mt-4">
-        <label>3 Years of Tax Returns</label>
-        <FileUpload
-          mode="basic"
-          accept=".pdf"
-          maxFileSize={10000000}
-          customUpload
-          chooseLabel="File Upload"
-          uploadHandler={(e) => handleFileUpload(e.files[0], "three_year_tax_return")}
-        />
-      </div>
-
-      {/* Ownership / Cap Table */}
-      <div className="col-6 mt-4">
-        <label>Ownership or Cap Table</label>
-        <FileUpload
-          mode="basic"
-          accept=".pdf"
-          maxFileSize={10000000}
-          customUpload
-          chooseLabel="File Upload"
-          uploadHandler={(e) => handleFileUpload(e.files[0], "ownership_or_cap_table")}
-        />
+        <Button
+                  label="Submit & Continue"
+                  icon="pi pi-check"
+                  className="p-button-success"
+                  onClick={handleSubmit}
+                />
       </div>
     </div>
-  </div>
+    </>
 )}
 
           </>
