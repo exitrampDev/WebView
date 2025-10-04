@@ -319,18 +319,32 @@ const saveListingBtn = (businessId) => {
                       {listing.entityType}
                     </p>
                     <p className="list__item_industry">
-                      {listing.industry?.slice(0, 3).map((item, index) => (
-                        <span key={index} style={{ marginRight: "6px" }}>
-                          {item}
-                        </span>
-                      ))}
+                      {(() => {
+                        let industries = [];
+                        try {
+                          industries = JSON.parse(listing.industry || "[]"); // safe parse
+                        } catch (e) {
+                          industries = [];
+                        }
 
-                      {listing.industry?.length > 3 && (
-                        <span className="more__remains">
-                          +{listing.industry.length - 3} more
-                        </span>
-                      )}
+                        return (
+                          <>
+                            {industries.slice(0, 3).map((item, index) => (
+                              <span key={index} style={{ marginRight: "6px" }}>
+                                {item}
+                              </span>
+                            ))}
+
+                            {industries.length > 3 && (
+                              <span className="more__remains">
+                                +{industries.length - 3} more
+                              </span>
+                            )}
+                          </>
+                        );
+                      })()}
                     </p>
+
                     <div className="list__content_prices">
                       <span>
                         <b>Asking Price</b>: ${listing.askingPrice}

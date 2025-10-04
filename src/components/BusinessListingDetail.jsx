@@ -50,6 +50,7 @@ export default function BusinessListingDetail() {
         // Fetch business detail
         const res = await fetch(`http://localhost:3000/business-listing/${id}`);
         const data = await res.json();
+        console.log("data>>>>>>>>.",data.image);
         setBusiness(data);
       } catch (err) {
         console.error("Error fetching business:", err);
@@ -102,10 +103,20 @@ export default function BusinessListingDetail() {
               {business.businessOverview}
             </div>
             <div className="listing__single_industries">
-              {business.industry?.map((ind, idx) => (
-                <Chip key={idx} label={ind} />
-              ))}
-            </div>
+                {(() => {
+                  let industries = [];
+                  try {
+                    industries = JSON.parse(business.industry || "[]");
+                  } catch {
+                    industries = [];
+                  }
+
+                  return industries.map((ind, idx) => (
+                    <Chip key={idx} label={ind} />
+                  ));
+                })()}
+              </div>
+
           </div>
         </div>
         <div className="business__list_single_highLevelSummary">
@@ -121,9 +132,20 @@ export default function BusinessListingDetail() {
 
           <div className="busines_lisiting_highLevelSummary_list">
             <strong>Industry: </strong>
-            <span>{business.industry?.map((ind, idx) => (
-              <span key={idx}> {ind} </span>
-            ))}</span>
+            <span>
+               {(() => {
+                  let industries = [];
+                  try {
+                    industries = JSON.parse(business.industry || "[]");
+                  } catch {
+                    industries = [];
+                  }
+
+                  return industries.map((ind, idx) => (
+                    <Chip key={idx} label={ind} />
+                  ));
+                })()}
+            </span>
           </div>
 
           <div className="busines_lisiting_highLevelSummary_list">
@@ -148,10 +170,10 @@ export default function BusinessListingDetail() {
 
         <div className="business__list_single_key_highlights_Business_overview">
           <div className="business__list_single_key_highlights_col">
-              <h3>Key Highlights</h3>
-               {business.keyHighlights?.map((ind, idx) => (
-                <span key={idx}> {ind} </span>
-              ))}
+            <h3>Key Highlights</h3>
+            {JSON.parse(business.keyHighlights || "[]")?.map((ind, idx) => (
+              <span key={idx}> {ind} </span>
+            ))}
           </div>
           <div className="business__list_single_business_overview">
             <h3>Business Overview:</h3>
