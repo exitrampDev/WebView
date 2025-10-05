@@ -503,12 +503,12 @@ const moneyTemplate = (row, { field }) => {
   };
   const actionTemplate = (row) => (
     <div className="action__listing_btns">
+      <Link to={`/user/single-listing/${row._id}`} className="flex gap-4">
       <i
         className="pi pi-eye cursor-pointer text-blue-500 hover:text-blue-700"
         onClick={() => console.log("View", row._id)}
       ></i>
-
-
+      </Link>
        <Link to={`/user/cim/${row._id}`}>
          <i
           className="pi pi-file cursor-pointer text-green-500 hover:text-green-700 cim__icon_click"

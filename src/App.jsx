@@ -23,6 +23,7 @@ import MySaveListing from "./components/dashboard/DasboardContentComponents/MySa
 import RecentViewListing from "./components/dashboard/DasboardContentComponents/RecentViewListing";
 import FreeSellerForm from "./components/dashboard/DasboardContentComponents/FreeSellerProfile";
 import CimView from "./components/dashboard/DasboardContentComponents/CimView";
+import SingleBusinessListing from "./components/dashboard/DasboardContentComponents/SingleBusinessListing";
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="dashboard" element={<DashboardContent />} />
           <Route path="saved-listing" element={<div>Saved Listing</div>} />
           <Route path="my-listing" element={<SellerListing />} />
+          <Route path="single-listing/:id" element={<SingleBusinessListing />} />
           <Route path="cim/:id" element={<CimView/>} />
           <Route
             path="complete-profile-buyer-free"
